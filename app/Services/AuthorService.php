@@ -18,14 +18,14 @@ class AuthorService
         return $authors->latest()->paginate($perPage);
     }
 
-    public function createAuthor(array $data): Author
+    public function createAuthor(string $authorName): Author
     {
-        return Author::create($data);
+        return Author::create(['author' => $authorName]);
     }
 
-    public function updateAuthor(Author $author, array $data): Author
+    public function updateAuthor(Author $author, string $authorName): Author
     {
-        $author->update($data);
+        $author->update(['author' => $authorName]);
         return $author;
     }
 

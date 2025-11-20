@@ -7,6 +7,22 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class BookService
 {
+    public function getFilteredBooks(string $search, ?int $categoryId)
+    {
+        return Book::with(['author', 'category'])
+            ->when($search, function ($query, $search) {
+                $query->where('title', 'like', '%' . $search . '%')
+                    ->orWhereHas('author', function ($q) use ($search) {
+                        $q->where('author', 'like', '%' . $search . '%');
+                    });
+            })
+            ->when($categoryId, function ($query, $categoryId) {
+                $query->where('category_id', $categoryId);
+            })
+            ->latest()
+            ->paginate(12);
+    }
+
     public function getPaginatedBooks(
         ?string $searchQuery = null,
         ?int $categoryId = null,
@@ -53,7 +69,7 @@ class BookService
         $book->update($data);
         return $book;
     }
-    
+
     public function deleteBook(Book $book): void
     {
         $book->delete();

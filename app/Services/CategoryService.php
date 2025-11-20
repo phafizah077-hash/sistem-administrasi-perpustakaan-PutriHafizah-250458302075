@@ -19,16 +19,20 @@ class CategoryService
         return $categories->latest()->paginate($perPage);
     }
 
-    public function createCategory(array $data): Category
+    public function createCategory(string $categoryName, string $slug): Category
     {
-        $data['slug'] = Str::slug($data['category']);
-        return Category::create($data);
+        return Category::create([
+            'category' => $categoryName,
+            'slug' => $slug,
+        ]);
     }
 
-    public function updateCategory(Category $category, array $data): Category
+    public function updateCategory(Category $category, string $categoryName, string $slug): Category
     {
-        $data['slug'] = Str::slug($data['category']);
-        $category->update($data);
+        $category->update([
+            'category' => $categoryName,
+            'slug' => $slug,
+        ]);
         return $category;
     }
 
