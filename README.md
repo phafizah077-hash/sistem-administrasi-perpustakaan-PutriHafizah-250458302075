@@ -41,8 +41,8 @@ Pastikan komputer Anda telah terinstal **PHP**, **Composer**, dan **MySQL**.
 
 1.  **Clone Repository**
     ```bash
-    git clone [https://github.com/username-kamu/nama-project.git](https://github.com/username-kamu/nama-project.git)
-    cd nama-project
+    git clone [https://github.com/phafizah077-hash/sistem-administrasi-perpustakaan-PutriHafizah-250458302075.git](https://github.com/phafizah077-hash/sistem-administrasi-perpustakaan-PutriHafizah-250458302075.git)
+    cd bookify
     ```
 
 2.  **Install Dependencies**
@@ -58,7 +58,7 @@ Pastikan komputer Anda telah terinstal **PHP**, **Composer**, dan **MySQL**.
     DB_CONNECTION=mysql
     DB_HOST=127.0.0.1
     DB_PORT=3306
-    DB_DATABASE=nama_database_kamu
+    DB_DATABASE=db_bookify
     DB_USERNAME=root
     DB_PASSWORD=
     ```
