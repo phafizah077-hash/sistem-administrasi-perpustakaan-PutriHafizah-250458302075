@@ -25,20 +25,17 @@ new
         {
             $validated = $this->validate([
                 'name' => ['required', 'string', 'max:255'],
-                // Aturan 'lowercase' telah dihapus dari sini
                 'email' => ['required', 'string', 'email', 'max:255', 'unique:' . User::class],
-                'phone' => ['required', 'numeric', 'digits_between:10,15'],
+                // SUDAH BENAR: nullable artinya boleh kosong
+                'phone' => ['nullable', 'numeric', 'digits_between:10,15'],
                 'address' => ['required', 'string', 'max:500'],
                 'password' => ['required', 'string', 'confirmed', Rules\Password::defaults()],
             ], [
-                // Custom Pesan Validasi Bahasa Indonesia
                 'name.required' => 'Nama lengkap wajib diisi.',
                 'name.max' => 'Nama tidak boleh lebih dari 255 karakter.',
                 'email.required' => 'Alamat email wajib diisi.',
                 'email.email' => 'Format email tidak valid.',
                 'email.unique' => 'Email ini sudah terdaftar.',
-                // Pesan error untuk lowercase juga sudah dihapus
-                'phone.required' => 'Nomor telepon wajib diisi.',
                 'phone.numeric' => 'Nomor telepon harus berupa angka.',
                 'phone.digits_between' => 'Nomor telepon harus antara 10 s/d 15 digit.',
                 'address.required' => 'Alamat lengkap wajib diisi.',
@@ -50,6 +47,11 @@ new
             $validated['password'] = Hash::make($validated['password']);
 
             $validated['role'] = 'Anggota';
+
+            // Jika phone kosong, pastikan tersimpan sebagai NULL (bukan string kosong "")
+            if (empty($validated['phone'])) {
+                $validated['phone'] = null;
+            }
 
             event(new Registered($user = User::create($validated)));
 
@@ -130,14 +132,14 @@ new
                 </div>
 
                 <div class="space-y-1">
-                    <label for="phone" class="block text-sm font-medium text-slate-700">Nomor Telepon</label>
+                    <label for="phone" class="block text-sm font-medium text-slate-700">Nomor Telepon <span class="text-slate-400 text-xs">(Opsional)</span></label>
                     <div class="relative">
                         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                             <svg class="h-5 w-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                             </svg>
                         </div>
-                        <input wire:model="phone" id="phone" type="tel" inputmode="numeric" pattern="[0-9]*" required
+                        <input wire:model="phone" id="phone" type="tel" inputmode="numeric" pattern="[0-9]*"
                             class="block w-full pl-10 pr-3 py-3 border border-slate-300 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition"
                             placeholder="Contoh: 08123456789">
                     </div>
@@ -215,4 +217,4 @@ new
 
         </div>
     </div>
-</div>l
+</div>
