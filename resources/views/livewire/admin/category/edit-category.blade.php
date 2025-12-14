@@ -1,34 +1,94 @@
-<div class="container mx-auto p-4">
-    <h1 class="text-2xl font-semibold mb-4">Edit Category</h1>
-    <form wire:submit.prevent="save">
-        <div class="card-body">
-            <div class="mb-4">
-                <label for="category" class="block text-gray-700 text-sm font-bold mb-2">
-                    Kategori
-                </label>
-                <input type="text" id="category" wire:model.live="categoryName"
-                    class="form-control">
-                @error('categoryName') <span class="text-danger">{{ $message }}</span> @enderror
-            </div>
+<div>
+    <style>
+        .form-label {
+            font-weight: 600;
+            color: #475569;
+            margin-bottom: 0.5rem;
+        }
 
-            <div class="mb-4">
-                <label for="slug" class="block text-gray-700 text-sm font-bold mb-2">
-                    Slug
-                </label>
-                <input type="text" id="slug" wire:model.live="slug" disabled
-                    class="form-control">
-                @error('slug') <span class="text-danger">{{ $message }}</span> @enderror
-            </div>
+        .form-control:focus {
+            border-color: #6366f1;
+            box-shadow: 0 0 0 0.25rem rgba(99, 102, 241, 0.25);
+        }
+    </style>
 
-            <div>
-                <button type="submit" class="btn btn-primary">
-                    Save
-                </button>
-                <a wire:navigate href="{{ route('admin.categories') }}"  type="button"
-                    class="btn btn-secondary">
-                    Cancel
-                </a>
+    <div class="app-content-header mb-4">
+        <div class="container-fluid">
+            <div class="row align-items-center">
+                <div class="col-sm-6">
+                    <h3 class="mb-0 fw-bold text-slate-800">Edit Kategori</h3>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb bg-transparent p-0 mb-0 small">
+                            <li class="breadcrumb-item"><a href="{{ route('admin.categories') }}" class="text-decoration-none text-indigo-600">Kategori</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Edit Data</li>
+                        </ol>
+                    </nav>
+                </div>
             </div>
         </div>
-    </form>
+    </div>
+
+    <div class="app-content">
+        <div class="container-fluid">
+            <div class="row justify-content-center">
+                <div class="col-12 col-lg-8 col-xl-6">
+                    <div class="card border-0 shadow-sm rounded-4">
+                        <div class="card-header bg-white py-3 border-bottom-0">
+                            <div class="d-flex align-items-center gap-2 text-warning">
+                                <i class="bi bi-pencil-square fs-5"></i>
+                                <h5 class="mb-0 fw-bold text-dark">Form Edit Kategori</h5>
+                            </div>
+                        </div>
+                        <div class="card-body p-4">
+                            <form wire:submit.prevent="save">
+                                <div class="mb-4">
+                                    <label for="category" class="form-label">Nama Kategori <span class="text-danger">*</span></label>
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-light border-end-0 text-secondary">
+                                            <i class="bi bi-tag"></i>
+                                        </span>
+                                        <input type="text"
+                                            id="category"
+                                            wire:model.live="categoryName"
+                                            class="form-control border-start-0 ps-0 @error('categoryName') is-invalid @enderror"
+                                            placeholder="Masukkan nama kategori baru">
+                                    </div>
+                                    @error('categoryName')
+                                    <div class="invalid-feedback d-block mt-1">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                <div class="mb-4">
+                                    <label for="slug" class="form-label">Slug (URL Friendly)</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-light text-secondary">
+                                            <i class="bi bi-link-45deg"></i>
+                                        </span>
+                                        <input type="text"
+                                            id="slug"
+                                            wire:model.live="slug"
+                                            disabled
+                                            class="form-control bg-light text-secondary cursor-not-allowed">
+                                    </div>
+                                    <div class="form-text text-muted small mt-1">
+                                        Slug akan diperbarui otomatis jika nama kategori diubah.
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-end gap-2 mt-5 pt-3 border-top">
+                                    <a wire:navigate href="{{ route('admin.categories') }}" class="btn btn-light text-secondary border px-4 rounded-pill">
+                                        Batal
+                                    </a>
+                                    <button type="submit" class="btn btn-primary px-4 rounded-pill shadow-sm d-flex align-items-center gap-2" style="background-color: #4f46e5; border-color: #4f46e5;">
+                                        <i class="bi bi-save"></i> Simpan Perubahan
+                                        <div wire:loading wire:target="save" class="spinner-border spinner-border-sm text-white" role="status">
+                                            <span class="visually-hidden">Loading...</span>
+                                        </div>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

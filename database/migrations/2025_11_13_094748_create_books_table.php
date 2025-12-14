@@ -6,9 +6,6 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('books', function (Blueprint $table) {
@@ -18,6 +15,7 @@ return new class extends Migration
             $table->string('isbn', 20)->unique();
             $table->string('publisher', 150)->nullable();
             $table->foreignId('author_id')->nullable()->constrained()->onDelete('set null');
+            $table->longText('sinopsis')->nullable();
             $table->year('publication_year')->nullable();
             $table->string('image')->nullable();
             $table->integer('stock')->nullable();
@@ -25,9 +23,6 @@ return new class extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('books');

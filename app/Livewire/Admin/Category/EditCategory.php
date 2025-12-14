@@ -7,15 +7,13 @@ use App\Models\Category;
 use Illuminate\Support\Str;
 use App\Services\CategoryService;
 use Livewire\Attributes\Validate;
-use Livewire\Attributes\Layout; // <--- Pastikan baris ini ada
+use Livewire\Attributes\Layout;
 
-// Arahkan ke: resources/views/components/layouts/admin.blade.php
 #[Layout('components.layouts.admin')]
-
 class EditCategory extends Component
 {
 
-     public Category $category;
+    public Category $category;
 
     #[Validate('required|string|max:100')]
     public string $categoryName = '';
@@ -35,6 +33,19 @@ class EditCategory extends Component
         $this->slug = Str::slug($value);
     }
 
+    /**
+     * Tambahkan ini untuk mengubah pesan error jadi Bahasa Indonesia
+     */
+    public function messages()
+    {
+        return [
+            'categoryName.required' => 'Nama kategori wajib diisi.',
+            'categoryName.string'   => 'Nama kategori harus berupa teks.',
+            'categoryName.max'      => 'Nama kategori tidak boleh lebih dari 100 karakter.',
+            'categoryName.unique'   => 'Nama kategori ini sudah digunakan, silakan pilih nama lain.',
+        ];
+    }
+
     public function save(CategoryService $categoryService)
     {
         $this->validate([
@@ -44,7 +55,8 @@ class EditCategory extends Component
 
         $categoryService->updateCategory($this->category, $this->categoryName, $this->slug);
 
-        session()->flash('message', 'Category updated successfully.');
+        // Ubah pesan sukses jadi Indo
+        session()->flash('message', 'Data kategori berhasil diperbarui.');
 
         return redirect()->route('admin.categories');
     }
@@ -54,5 +66,3 @@ class EditCategory extends Component
         return view('livewire.admin.category.edit-category');
     }
 }
-
-

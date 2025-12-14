@@ -21,9 +21,10 @@ class Loan extends Model
     ];
 
     protected $casts = [
-        'loan_date' => 'datetime',   // Ini yang bikin error hilang
-        'due_date' => 'datetime',    // Tambahkan kalau ada tanggal jatuh tempo
+        'loan_date' => 'datetime',  
+        'due_date' => 'datetime',  
     ];
+    
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

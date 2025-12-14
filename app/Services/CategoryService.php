@@ -4,7 +4,6 @@ namespace App\Services;
 
 use App\Models\Category;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Str;
 
 class CategoryService
 {

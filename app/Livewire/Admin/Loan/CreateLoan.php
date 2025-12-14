@@ -6,43 +6,59 @@ use App\Models\Book;
 use App\Models\User;
 use Livewire\Component;
 use App\Services\LoanService;
-use Livewire\Attributes\Rule;
 use Illuminate\Support\Facades\Auth;
-use Livewire\Attributes\Layout; // <--- Pastikan baris ini ada
+use Livewire\Attributes\Layout;
 
-// Arahkan ke: resources/views/components/layouts/admin.blade.php
 #[Layout('components.layouts.admin')]
-
 class CreateLoan extends Component
 {
+    // Hapus #[Rule] di sini agar kita bisa custom pesan errornya lebih leluasa di function messages()
+    // Atau tetap pakai #[Rule] tapi kita override pesannya di bawah.
 
-     #[Rule('required|exists:users,id')]
     public $userId = '';
-
-    #[Rule('required|exists:books,id')]
     public $bookId = '';
-
-    #[Rule('required|integer|min:1')]
     public $loanDays = 7;
 
-    public $users;
-    public $books;
+    public $searchUser = '';
+    public $searchBook = '';
 
-    public function mount()
+    // Definisikan rules secara manual di sini atau di function rules()
+    protected function rules()
     {
-        $this->users = User::where('role', 'Anggota')->get();
-        $this->books = Book::where('stock', '>', 0)->get();
+        return [
+            'userId' => 'required|exists:users,id',
+            'bookId' => 'required|exists:books,id',
+            'loanDays' => 'required|integer|min:1',
+        ];
     }
+
+    // --- TAMBAHKAN BAGIAN INI ---
+    // Ini untuk mengubah pesan "The user id field is required" jadi bahasa manusia
+    public function messages()
+    {
+        return [
+            'userId.required' => 'Nama Peminjam wajib dipilih.',
+            'userId.exists'   => 'Data peminjam tidak valid.',
+
+            'bookId.required' => 'Judul Buku wajib dipilih.',
+            'bookId.exists'   => 'Data buku tidak valid.',
+
+            'loanDays.required' => 'Durasi peminjaman wajib diisi.',
+            'loanDays.min'      => 'Durasi minimal 1 hari.',
+        ];
+    }
+    // ----------------------------
 
     public function save(LoanService $loanService)
     {
+        // Panggil validate() yang akan menggunakan rules & messages di atas
         $this->validate();
 
         try {
             $loanService->createLoan(
                 $this->userId,
                 $this->bookId,
-                Auth::id(), // Librarian ID
+                Auth::id(),
                 $this->loanDays
             );
 
@@ -53,8 +69,41 @@ class CreateLoan extends Component
         }
     }
 
+    public function selectUser($id, $name)
+    {
+        $this->userId = $id;
+        $this->searchUser = $name;
+        // Reset validasi error saat user memilih item yang benar
+        $this->resetValidation('userId');
+    }
+
+    public function selectBook($id, $title)
+    {
+        $this->bookId = $id;
+        $this->searchBook = $title;
+        // Reset validasi error saat user memilih item yang benar
+        $this->resetValidation('bookId');
+    }
+
     public function render()
     {
-        return view('livewire.admin.loan.create-loan');
+        $users = User::where('role', 'Anggota')
+            ->when($this->searchUser, function ($query) {
+                $query->where('name', 'like', '%' . $this->searchUser . '%');
+            })
+            ->take(10)
+            ->get();
+
+        $books = Book::where('stock', '>', 0)
+            ->when($this->searchBook, function ($query) {
+                $query->where('title', 'like', '%' . $this->searchBook . '%');
+            })
+            ->take(10)
+            ->get();
+
+        return view('livewire.admin.loan.create-loan', [
+            'users' => $users,
+            'books' => $books
+        ]);
     }
 }

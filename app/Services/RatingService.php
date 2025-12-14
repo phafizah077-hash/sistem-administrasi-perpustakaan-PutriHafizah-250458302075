@@ -2,11 +2,13 @@
 
 namespace App\Services;
 
+use Exception;
 use App\Models\Book;
+use App\Models\User;
 use App\Models\Rating;
 use App\Models\Review;
-use App\Models\User;
-use Exception;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class RatingService
 {
@@ -39,5 +41,33 @@ class RatingService
                 'comment' => $comment,
             ]
         );
+    }
+
+    public function createOrUpdateRating(Book $book, int $ratingValue, string $comment): Rating
+    {
+        return DB::transaction(function () use ($book, $ratingValue, $comment) {
+            $user = Auth::user();
+
+            $rating = Rating::updateOrCreate(
+                [
+                    'user_id' => $user->id,
+                    'book_id' => $book->id,
+                ],
+                [
+                    'rating' => $ratingValue,
+                ]
+            );
+
+            Review::updateOrCreate(
+                [
+                    'rating_id' => $rating->id,
+                ],
+                [
+                    'comment' => $comment,
+                ]
+            );
+
+            return $rating;
+        });
     }
 }

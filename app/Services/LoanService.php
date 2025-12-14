@@ -24,6 +24,15 @@ class LoanService
         return $user->loans()->with('book')->latest()->get();
     }
 
+    public function getOverdueLoansForUser(User $user): Collection
+    {
+        return $user->loans()
+            ->where('status', 'borrowed')
+            ->where('due_date', '<', now())
+            ->with('book')
+            ->get();
+    }
+
     public function createLoan(int $userId, int $bookId, int $librarianId, int $loanDays = 7): Loan
     {
         $book = Book::findOrFail($bookId);
@@ -32,7 +41,6 @@ class LoanService
             throw new Exception('Buku tidak tersedia untuk dipinjam.');
         }
 
-        // Decrement stock
         $book->decrement('stock');
 
         return Loan::create([
@@ -51,17 +59,14 @@ class LoanService
             throw new Exception('Buku ini sudah dikembalikan sebelumnya.');
         }
 
-        // Update loan status
         $loan->update([
             'status' => 'returned',
         ]);
-
-        // Increment stock
+        
         $loan->book->increment('stock');
 
-        // Create a record in return_books table
         $loan->returnBook()->create([
-            'librarian_id' => Auth::id(), // Assumes the authenticated user is the librarian
+            'librarian_id' => Auth::id(), 
             'return_date' => Carbon::now(),
         ]);
 

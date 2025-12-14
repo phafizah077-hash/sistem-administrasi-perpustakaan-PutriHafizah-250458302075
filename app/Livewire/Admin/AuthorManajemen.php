@@ -5,19 +5,24 @@ namespace App\Livewire\Admin;
 use App\Models\Author;
 use Livewire\Component;
 use Livewire\WithPagination;
-use Livewire\Attributes\Layout; // <--- Pastikan baris ini ada
+use Livewire\Attributes\Layout;
 
-// Arahkan ke: resources/views/components/layouts/admin.blade.php
 #[Layout('components.layouts.admin')]
 
 class AuthorManajemen extends Component
 {
     use WithPagination;
 
+    protected $paginationTheme = 'bootstrap';
+
     public function deleteAuthor($authorId)
     {
-        Author::find($authorId)->delete();
-        session()->flash('message', 'Author deleted successfully.');
+        $author = Author::find($authorId);
+
+        if ($author) {
+            $author->delete();
+            session()->flash('message', 'Penulis berhasil dihapus.');
+        }
     }
 
     public function render()

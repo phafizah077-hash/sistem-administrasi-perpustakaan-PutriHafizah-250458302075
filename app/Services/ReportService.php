@@ -2,10 +2,7 @@
 
 namespace App\Services;
 
-use App\Exports\OverdueLoansExport;
-use App\Exports\LoanHistoryExport;
 use Carbon\Carbon;
-use Maatwebsite\Excel\Facades\Excel;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class ReportService

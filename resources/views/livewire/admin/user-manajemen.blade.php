@@ -1,4 +1,21 @@
 <div>
+    <style>
+        .btn-indigo {
+            background-color: #4f46e5 !important;
+            border-color: #4f46e5 !important;
+            color: white !important;
+            box-shadow: 0 2px 4px rgba(79, 70, 229, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .btn-indigo:hover {
+            background-color: #4338ca !important;
+            border-color: #4338ca !important;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 6px rgba(79, 70, 229, 0.3);
+        }
+    </style>
+
     <div class="app-content-header">
         <div class="container-fluid">
             <div class="row">
@@ -9,63 +26,91 @@
         </div>
     </div>
 
-
     <div class="app-content">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12">
-                    <div class="card mb-4">
-                        <div class="card-header">
+                    <div class="card mb-4 border-0 shadow-sm">
+                        <div class="card-header bg-white d-flex justify-content-between align-items-center py-3">
+                            <h3 class="card-title fw-bold text-secondary">List User</h3>
+                            <a wire:navigate href="{{ route('admin.users.create') }}" class="btn btn-indigo rounded-pill px-4">
+                                <i class="bi bi-plus-lg me-1"></i> Add New User
+                            </a>
+                        </div>
 
-                            <div class="card-body">
-                                @if (session()->has('message'))
-                                <div class="alert alert-success">{{ session('message') }}</div>
-                                @endif
-                                @if (session()->has('error'))
-                                <div class="alert alert-danger">{{ session('error') }}</div>
-                                @endif
-                                <table class="table table-bordered">
-                                    <a wire:navigate href="{{ route('admin.users.create') }}" class="btn btn-primary mb-4">
-                                        Add New User
-                                    </a>
-                                    <thead>
+                        <div class="card-body">
+                            @if (session()->has('message'))
+                            <div x-data="{ show: true }"
+                                x-init="setTimeout(() => show = false, 3000)"
+                                x-show="show"
+                                x-transition.duration.500ms
+                                class="alert alert-success rounded-3 mb-4">
+                                {{ session('message') }}
+                            </div>
+                            @endif
+                            @if (session()->has('error'))
+                            <div class="alert alert-danger rounded-3">{{ session('error') }}</div>
+                            @endif
+
+                            <div class="table-responsive">
+                                <table class="table table-hover align-middle">
+                                    <thead class="table-light">
                                         <tr>
-                                            <th style="width: 10px">No</th>
+                                            <th class="text-center" style="width: 50px">No</th>
                                             <th>Nama</th>
                                             <th>Email</th>
                                             <th>No Telp</th>
                                             <th>Alamat</th>
-                                            <th>Status</th>
-                                            <th style="width: 150px">Actions</th>
+                                            <th class="text-center">Status</th>
+                                            <th class="text-center" style="width: 200px">Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach ($users as $user)
-                                        <tr class="align-middle">
-                                            <td>{{ $loop->iteration }}</td>
-                                            <td>{{ $user->name }}</td>
-                                            <td>{{ $user->email }}</td>
-                                            <td>{{ $user->phone }}</td>
-                                            <td>{{ $user->address }}</td>
-                                            <td><span class="badge {{ $user->role == 'Pustakawan' ? 'text-bg-primary' : 'text-bg-secondary' }}">{{ $user->role }}</span></td>
+                                        <tr>
+                                            <td class="text-center">{{ $users->firstItem() + $loop->index }}</td>
+
+                                            <td class="fw-semibold text-dark">{{ $user->name }}</td>
+                                            <td class="text-muted">{{ $user->email }}</td>
+                                            <td>{{ $user->phone ?? '-' }}</td>
+                                            <td>
+                                                <span class="d-inline-block text-truncate" style="max-width: 150px;" title="{{ $user->address }}">
+                                                    {{ $user->address ?? '-' }}
+                                                </span>
+                                            </td>
+
+                                            <td class="text-center">
+                                                @if($user->role == 'Pustakawan')
+                                                <span class="badge bg-primary bg-opacity-10 text-primary border border-primary-subtle px-3 py-2 rounded-pill">
+                                                    Pustakawan
+                                                </span>
+                                                @else
+                                                <span class="badge bg-secondary bg-opacity-10 text-secondary border border-secondary-subtle px-3 py-2 rounded-pill">
+                                                    Anggota
+                                                </span>
+                                                @endif
+                                            </td>
 
                                             <td class="text-center">
                                                 <div class="d-flex justify-content-center gap-2">
-                                                    {{-- TOMBOL VIEW --}}
-                                                    {{-- Perhatikan: tombol ini memicu Modal Bootstrap DAN Livewire --}}
-                                                    <button
-                                                        type="button"
-                                                        class="btn btn-sm btn-info"
+                                                    <button type="button"
+                                                        class="btn btn-sm btn-outline-info rounded-pill px-3"
                                                         data-bs-toggle="modal"
                                                         data-bs-target="#modalDetailUser"
                                                         wire:click="$dispatch('view-user-detail', { userId: {{ $user->id }} })">
-                                                        View
+                                                        <i class="bi bi-eye"></i>
                                                     </button>
 
-                                                    <a wire:navigate href="{{ route('admin.users.edit', $user->id) }}" class="btn btn-sm btn-warning">
-                                                        Edit
+                                                    <a wire:navigate href="{{ route('admin.users.edit', $user->id) }}"
+                                                        class="btn btn-sm btn-outline-warning rounded-pill px-3">
+                                                        <i class="bi bi-pencil"></i>
                                                     </a>
-                                                    <button class="btn btn-sm btn-danger" wire:click="deleteUser({{ $user->id }})" wire:confirm="Are you sure you want to delete this user?">Delete</button>
+
+                                                    <button class="btn btn-sm btn-outline-danger rounded-pill px-3"
+                                                        wire:click="deleteUser({{ $user->id }})"
+                                                        wire:confirm="Apakah Anda yakin ingin menghapus pengguna ini?">
+                                                        <i class="bi bi-trash"></i>
+                                                    </button>
                                                 </div>
                                             </td>
                                         </tr>
@@ -74,6 +119,11 @@
                                 </table>
                             </div>
                         </div>
+
+                        <div class="card-footer bg-white d-flex justify-content-end py-3">
+                            {{ $users->links() }}
+                        </div>
+
                     </div>
                 </div>
             </div>

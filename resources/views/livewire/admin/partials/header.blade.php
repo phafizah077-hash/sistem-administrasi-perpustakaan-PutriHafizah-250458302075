@@ -1,38 +1,65 @@
-<nav class="app-header navbar navbar-expand bg-body">
+<nav class="app-header navbar navbar-expand bg-white shadow-sm border-bottom-0" style="height: 70px;">
+
+    <style>
+        .hover-text-indigo {
+            transition: color 0.2s;
+        }
+
+        .hover-text-indigo:hover {
+            color: #4f46e5 !important;
+        }
+
+        .hover-bg-indigo-50 {
+            transition: background-color 0.2s;
+        }
+
+        .hover-bg-indigo-50:hover {
+            background-color: #eef2ff;
+        }
+
+        .user-menu .dropdown-toggle::after {
+            display: none;
+        }
+
+        .bg-indigo-50 {
+            background-color: #eef2ff;
+        }
+
+        .text-indigo-600 {
+            color: #4f46e5;
+        }
+    </style>
+
     <div class="container-fluid">
-        <ul class="navbar-nav">
+        <ul class="navbar-nav flex-row align-items-center gap-3">
             <li class="nav-item">
-                <a class="nav-link" href="#" role="button" onclick="toggleSidebar(event)">
-                    <i class="bi bi-list"></i>
+                <a class="nav-link p-2 rounded-circle hover-bg-indigo-50 d-flex align-items-center justify-content-center"
+                    href="#"
+                    role="button"
+                    onclick="toggleSidebar(event)"
+                    style="width: 40px; height: 40px; color: #4f46e5;">
+                    <i class="bi bi-list fs-4"></i>
                 </a>
             </li>
-            <li class="nav-item d-none d-md-block"><a href="{{ route('admin.dashboard') }}" class="nav-link">Home</a></li>
-        </ul>
-        <ul class="navbar-nav ms-auto">
-            <li class="nav-item dropdown user-menu">
-                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                    <img src="{{ asset('AdminLTE/dist/assets/img/user2-160x160.jpg') }}" class="user-image rounded-circle shadow" alt="User Image" />
-                    <span class="d-none d-md-inline">{{ Auth::user()->name}}</span>
+            <li class="nav-item d-none d-md-block">
+                <a href="{{ route('home') }}" class="nav-link fw-bold text-secondary hover-text-indigo">
+                    Beranda
                 </a>
-                <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
-                    <li class="user-header text-bg-primary">
-                        <img src="{{ asset('AdminLTE/dist/assets/img/user2-160x160.jpg') }}" class="rounded-circle shadow" alt="User Image" />
-                        <p>
-                            {{ Auth::user()->name}} - {{ Auth::user()->role }}
-                            <small>Bergabung pada {{ (Auth::user()->created_at ?? now())->format('M. Y') }}</small>
-                        </p>
-                    </li>
-                    <li class="user-footer">
-                        <form method="POST" action="{{ route('logout') }}" class="d-inline">
-                            @csrf
-                            <a href="{{ route('logout') }}" class="btn btn-primary btn-flat float-end"
-                                onclick="event.preventDefault(); this.closest('form').submit();">
-                                Log out
-                            </a>
-                        </form>
-                    </li>
-                </ul>
             </li>
         </ul>
+        <ul class="navbar-nav flex-row ms-auto align-items-center">
+            <li class="nav-item">
+                <div class="nav-link d-flex align-items-center gap-2 p-0">
+                    <div class="d-flex align-items-center justify-content-center rounded-circle bg-indigo-50 text-indigo-600 shadow-sm border border-indigo-100"
+                        style="width: 35px; height: 35px;">
+                        <i class="bi bi-person-fill fs-5"></i>
+                    </div>
+                    <span class="d-none d-md-inline fw-bold text-dark" style="font-size: 0.9rem;">
+                        {{ Auth::user()->name }}
+                    </span>
+                </div>
+            </li>
+        </ul>
+
     </div>
 </nav>

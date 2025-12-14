@@ -5,14 +5,15 @@ namespace App\Livewire\Admin;
 use App\Models\User;
 use Livewire\Component;
 use Livewire\WithPagination;
-use Livewire\Attributes\Layout; // <--- Pastikan baris ini ada
+use Livewire\Attributes\Layout; 
 
-// Arahkan ke: resources/views/components/layouts/admin.blade.php
 #[Layout('components.layouts.admin')]
 
 class UserManajemen extends Component
 {
     use WithPagination;
+
+    protected $paginationTheme = 'bootstrap';
 
     public function deleteUser($userId)
     {
@@ -22,7 +23,7 @@ class UserManajemen extends Component
         }
         
         User::find($userId)->delete();
-        session()->flash('message', 'User deleted successfully.');
+        session()->flash('message', 'User berhasil dihapus.');
     }
 
     public function render()

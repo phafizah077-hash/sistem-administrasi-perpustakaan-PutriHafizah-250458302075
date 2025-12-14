@@ -5,61 +5,84 @@ namespace App\Livewire\Admin\User;
 use Livewire\Component;
 use App\Models\User;
 use App\Services\UserService;
-use Illuminate\Support\Facades\Hash;
-use Livewire\Attributes\Layout; // <--- Pastikan baris ini ada
+use Livewire\Attributes\Layout;
 
-// Arahkan ke: resources/views/components/layouts/admin.blade.php
 #[Layout('components.layouts.admin')]
-
 class EditUser extends Component
 {
     public User $user;
 
-    // 1. Ganti Form Object jadi Array
-    public $form = [];
+    public $name;
+    public $email;
+    public $role;
+    public $phone;
+    public $address;
 
-    // 2. Password dipisah (karena tidak diambil dari DB saat edit)
     public $password = '';
     public $password_confirmation = '';
 
     public function mount(User $user)
     {
         $this->user = $user;
+        $this->name = $user->name;
+        $this->email = $user->email;
+        $this->role = $user->role;
+        $this->phone = $user->phone;
+        $this->address = $user->address;
+    }
 
-        // 3. Masukkan data User ke dalam Array form
-        $this->form = [
-            'name' => $user->name,
-            'email' => $user->email,
-            'role' => $user->role,
-            'phone' => $user->phone,
-            'address' => $user->address,
+    protected function rules()
+    {
+        return [
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255|unique:users,email,' . $this->user->id,
+            'role' => 'required|in:Pustakawan,Anggota',
+            'phone' => 'nullable|string|max:50',
+            'address' => 'nullable|string',
+            'password' => 'nullable|min:8|confirmed',
+        ];
+    }
+
+    // --- TAMBAHAN 1: Agar Error Hilang Real-time ---
+    public function updated($propertyName)
+    {
+        // Fungsi ini mengecek validasi setiap kali ada data berubah/blur
+        $this->validateOnly($propertyName);
+    }
+
+    // --- TAMBAHAN 2: Translate Bahasa Indonesia ---
+    public function messages()
+    {
+        return [
+            'name.required' => 'Nama lengkap wajib diisi.',
+            'email.required' => 'Email wajib diisi.',
+            'email.email' => 'Format email tidak valid.',
+            'email.unique' => 'Email sudah digunakan user lain.',
+            'role.required' => 'Wajib memilih role.',
+            'password.min' => 'Password minimal 8 karakter.',
+            'password.confirmed' => 'Konfirmasi password tidak cocok.',
         ];
     }
 
     public function save(UserService $userService)
     {
-        // 4. Validasi Array (Gunakan 'form.namafield')
-        $this->validate([
-            'form.name' => 'required|string|max:255',
-            'form.email' => 'required|email|max:255|unique:users,email,' . $this->user->id,
-            'form.role' => 'required|in:Pustakawan,Anggota',
-            'form.phone' => 'required|string|max:50',
-            'form.address' => 'required|string',
-            'password' => 'nullable|min:8|confirmed', // Validasi password terpisah
-        ]);
+        $this->validate();
 
-        // Ambil data dari array
-        $data = $this->form;
+        $data = [
+            'name' => $this->name,
+            'email' => $this->email,
+            'role' => $this->role,
+            'phone' => $this->phone,
+            'address' => $this->address,
+        ];
 
-        // Cek jika password diisi, maka hash dan masukkan ke data
         if (!empty($this->password)) {
-            $data['password'] = Hash::make($this->password);
+            $data['password'] = $this->password;
         }
 
-        // Update via Service
         $userService->updateUser($this->user, $data);
 
-        session()->flash('message', 'User updated successfully.');
+        session()->flash('message', 'User berhasil diperbarui.');
 
         return redirect()->route('admin.users');
     }

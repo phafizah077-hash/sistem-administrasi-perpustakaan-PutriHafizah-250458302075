@@ -1,65 +1,65 @@
 <div class="modal fade" id="modalDetailCategory" tabindex="-1" aria-hidden="true" wire:ignore.self>
-    <div class="modal-dialog modal-dialog-centered"> {{-- Tidak perlu modal-lg, cukup standar biar compact --}}
-        <div class="modal-content">
-
-            {{-- HEADER --}}
-            <div class="modal-header border-bottom-0">
-                <h5 class="modal-title">
-                    <i class="fas fa-layer-group me-2"></i> Detail Kategori
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg rounded-4">
+            <div class="modal-header border-bottom-0 pb-0">
+                <h5 class="modal-title fw-bold text-secondary">
+                    <i class="bi bi-info-circle-fill text-indigo-500 me-2"></i> Detail Kategori
                 </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
-            {{-- BODY --}}
-            <div class="modal-body">
-
+            <div class="modal-body pt-2 pb-4 px-4">
                 @if ($category)
-                {{-- BAGIAN IKON & JUDUL --}}
-                <div class="text-center mb-4">
-                    <div class="bg-primary-subtle text-primary rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
-                        style="width: 80px; height: 80px;">
-                        <i class="fas fa-tags fa-3x"></i>
+                <div class="text-center mt-3 mb-4">
+                    <div class="d-inline-flex align-items-center justify-content-center rounded-circle mb-3 shadow-sm"
+                        style="width: 90px; height: 90px; background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%); border: 4px solid #fff;">
+                        <i class="bi bi-tags-fill text-indigo-600" style="font-size: 2.5rem;"></i>
                     </div>
-                    <h3 class="fw-bold text-dark">{{ $category->category }}</h3>
-                    <span class="badge bg-secondary">ID: {{ $category->id }}</span>
-                </div>
 
-                {{-- BAGIAN TABEL DETAIL --}}
-                <div class="card bg-light border-0">
-                    <div class="card-body">
-                        <table class="table table-borderless table-sm mb-0">
-                            <tbody>
-                                <tr>
-                                    <th width="30%" class="text-muted">Nama Kategori</th>
-                                    <td class="fw-bold text-dark">: {{ $category->category }}</td>
-                                </tr>
-                                <tr>
-                                    <th class="text-muted">Slug (URL)</th>
-                                    <td class="font-monospace text-primary">: {{ $category->slug ?? '-' }}</td>
-                                </tr>
-                                <tr>
-                                    <th class="text-muted">Dibuat Pada</th>
-                                    <td>: {{ $category->created_at ? $category->created_at->format('d M Y') : '-' }}</td>
-                                </tr>
-                            </tbody>
-                        </table>
+                    <h3 class="fw-bold text-dark mb-1">{{ $category->category }}</h3>
+                </div>
+                <div class="card bg-light border-0 rounded-3">
+                    <div class="card-body p-3">
+                        <div class="d-flex justify-content-between align-items-center mb-2 border-bottom pb-2">
+                            <span class="text-muted small text-uppercase fw-bold">Slug URL</span>
+                            <span class="font-monospace text-indigo-600 fw-bold">{{ $category->slug ?? '-' }}</span>
+                        </div>
+
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="text-muted small text-uppercase fw-bold">Tanggal Dibuat</span>
+                            <span class="text-dark fw-semibold">
+                                {{ $category->created_at ? $category->created_at->format('d F Y') : '-' }}
+                            </span>
+                        </div>
                     </div>
                 </div>
                 @else
-                {{-- State Loading / Kosong --}}
-                <div class="text-center py-4">
-                    <div class="spinner-border text-primary mb-2" role="status"></div>
-                    <p class="text-muted">Memuat data kategori...</p>
+                <div class="text-center py-5">
+                    <div class="spinner-border text-indigo-500 mb-3" role="status" style="width: 3rem; height: 3rem;"></div>
+                    <p class="text-muted mb-0">Sedang memuat data...</p>
                 </div>
                 @endif
-
             </div>
 
-            {{-- FOOTER --}}
-            <div class="modal-footer border-top-0">
-                <button type="button" class="btn btn-secondary w-100" data-bs-dismiss="modal">Close</button>
+            <div class="modal-footer border-top-0 pt-0 px-4 pb-4">
+                <button type="button" class="btn btn-light text-secondary fw-bold w-100 py-2 rounded-pill border" data-bs-dismiss="modal">
+                    Tutup
+                </button>
             </div>
-
         </div>
     </div>
+
+    <style>
+        .text-indigo-500 {
+            color: #6366f1 !important;
+        }
+
+        .text-indigo-600 {
+            color: #4f46e5 !important;
+        }
+
+        .bg-indigo-50 {
+            background-color: #eef2ff !important;
+        }
+    </style>
 </div>

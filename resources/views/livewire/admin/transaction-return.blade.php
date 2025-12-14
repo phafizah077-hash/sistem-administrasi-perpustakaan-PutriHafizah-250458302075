@@ -1,9 +1,26 @@
 <div>
+    <style>
+        .btn-indigo {
+            background-color: #4f46e5 !important;
+            border-color: #4f46e5 !important;
+            color: white !important;
+            box-shadow: 0 2px 4px rgba(79, 70, 229, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .btn-indigo:hover {
+            background-color: #4338ca !important;
+            border-color: #4338ca !important;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 6px rgba(79, 70, 229, 0.3);
+        }
+    </style>
+
     <div class="app-content-header">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-sm-6">
-                    <h3 class="mb-0">Manajemen Pengembalian</h3>
+                    <h3 class="mb-0 fw-bold text-slate-800">Manajemen Pengembalian</h3>
                 </div>
             </div>
         </div>
@@ -13,68 +30,103 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12">
-                    <div class="card mb-4">
-                        <div class="card-header">
-                            <div class="card-body">
-                                @if (session()->has('message'))
-                                <div class="alert alert-success">
-                                    {{ session('message') }}
-                                </div>
-                                @endif
+                    <div class="card mb-4 border-0 shadow-sm rounded-4">
+                        <div class="card-header bg-white d-flex justify-content-between align-items-center py-3">
+                            <h3 class="card-title fw-bold text-secondary">Daftar Pengembalian</h3>
+                            <button wire:click="exportExcel" class="btn btn-indigo rounded-pill px-4">
+                                <i class="bi bi-download me-1"></i> Ekspor Data
+                            </button>
+                        </div>
 
-                                <a wire:navigate href="" class="btn btn-secondary mb-4">
-                                    Ekspor Data
-                                </a>
-
-                                <table class="table table-bordered">
-                                    <thead>
+                        <div class="card-body">
+                            @if (session()->has('message'))
+                            <div x-data="{ show: true }"
+                                x-init="setTimeout(() => show = false, 3000)"
+                                x-show="show"
+                                x-transition.duration.500ms
+                                class="alert alert-success rounded-3 mb-4">
+                                {{ session('message') }}
+                            </div>
+                            @endif
+                            <div class="table-responsive">
+                                <table class="table table-hover align-middle">
+                                    <thead class="table-light">
                                         <tr>
+                                            <th class="text-center" style="width: 50px">No</th>
                                             <th>Peminjam</th>
                                             <th>Buku</th>
-                                            <th>Tgl. Kembali</th>
-                                            <th>Status</th>
-                                            <th style="width: 150px">Actions</th>
+                                            <th class="text-center">Tgl. Kembali</th>
+                                            <th class="text-center">Status</th>
+                                            <th class="text-center">Denda</th>
+                                            <th class="text-center" style="width: 200px">Aksi</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @forelse ($loans as $loan)
+                                        @forelse ($loans as $index => $loan)
                                         <tr>
-                                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                                <p class="text-gray-900 whitespace-no-wrap">{{ $loan->user->name }}</p>
+                                            {{-- Sesuaikan nomor urut dengan pagination --}}
+                                            <td class="text-center">{{ $loans->firstItem() + $index }}</td>
+
+                                            <td class="fw-semibold text-dark">{{ $loan->user->name }}</td>
+                                            <td class="text-muted">{{ $loan->book->title }}</td>
+
+                                            <td class="text-center font-monospace text-secondary">
+                                                {{ $loan->due_date->format('d M Y') }}
                                             </td>
-                                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                                <p class="text-gray-900 whitespace-no-wrap">{{ $loan->book->title }}</p>
-                                            </td>
-                                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                                <p class="text-gray-900 whitespace-no-wrap">{{ $loan->due_date->format('d M Y') }}</p>
-                                            </td>
-                                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+
+                                            <td class="text-center">
                                                 @if (now() > $loan->due_date)
-                                                <span class="relative inline-block px-3 py-1 font-semibold text-red-900 leading-tight bg-red-200 rounded-full">
-                                                    <span class="relative">Terlambat</span>
+                                                <span class="badge bg-danger bg-opacity-10 text-danger border border-danger-subtle px-3 py-2 rounded-pill">
+                                                    Terlambat
                                                 </span>
                                                 @else
-                                                <span class="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight bg-green-200 rounded-full">
-                                                    <span class="relative">Tepat Waktu</span>
+                                                <span class="badge bg-success bg-opacity-10 text-success border border-success-subtle px-3 py-2 rounded-pill">
+                                                    Tepat Waktu
                                                 </span>
                                                 @endif
                                             </td>
-                                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm text-right">
-                                                <button wire:click="processReturn({{ $loan->id }})" wire:confirm="Anda yakin ingin memproses pengembalian untuk buku ini?" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                                                    Proses Pengembalian
-                                                </button>
+                                            <td class="text-center">
+                                                @if (now() > $loan->due_date)
+                                                @php
+                                                $due = $loan->due_date->startOfDay();
+                                                $now = now()->startOfDay();
+                                                $diffInDays = $due->diffInDays($now);
+                                                $fineAmount = $diffInDays * 3000;
+                                                @endphp
+                                                <span class="fw-semibold text-danger">
+                                                    Rp{{ number_format($fineAmount, 0, ',', '.') }}
+                                                </span>
+                                                @else
+                                                <span class="text-muted">Rp 0</span>
+                                                @endif
+                                            </td>
+                                            <td class="text-center">
+                                                <div class="d-flex justify-content-center gap-2">
+                                                    <button wire:click="processReturn({{ $loan->id }})"
+                                                        wire:confirm="Anda yakin ingin memproses pengembalian untuk buku ini?"
+                                                        class="btn btn-sm btn-indigo rounded-pill px-3 shadow-sm d-flex align-items-center">
+                                                        <i class="bi bi-check-circle me-1"></i> Proses
+                                                    </button>
+                                                </div>
                                             </td>
                                         </tr>
                                         @empty
                                         <tr>
-                                            <td colspan="4" class="text-center py-10">
-                                                <p class="text-gray-500">Tidak ada buku yang sedang dipinjam.</p>
+                                            <td colspan="7" class="text-center py-5">
+                                                <div class="d-flex flex-column align-items-center">
+                                                    <i class="bi bi-inbox text-slate-300" style="font-size: 3rem;"></i>
+                                                    <p class="text-muted mt-2">Tidak ada data pengembalian.</p>
+                                                </div>
                                             </td>
                                         </tr>
                                         @endforelse
                                     </tbody>
                                 </table>
                             </div>
+                        </div>
+                        <div class="card-footer bg-white d-flex justify-content-end py-3">
+                            {{-- Komentar dihapus agar pagination muncul --}}
+                            {{ $loans->links() }}
                         </div>
                     </div>
                 </div>

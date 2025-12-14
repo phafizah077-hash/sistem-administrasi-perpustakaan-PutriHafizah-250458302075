@@ -5,19 +5,24 @@ namespace App\Livewire\Admin;
 use App\Models\Book;
 use Livewire\Component;
 use Livewire\WithPagination;
-use Livewire\Attributes\Layout; // <--- Pastikan baris ini ada
+use Livewire\Attributes\Layout;
 
-// Arahkan ke: resources/views/components/layouts/admin.blade.php
 #[Layout('components.layouts.admin')]
 
 class BookManajemen extends Component
 {
     use WithPagination;
 
+    protected $paginationTheme = 'bootstrap';
+
     public function deleteBook($bookId)
     {
-        Book::find($bookId)->delete();
-        session()->flash('message', 'Book deleted successfully.');
+        $book = Book::find($bookId);
+
+        if ($book) {
+            $book->delete();
+            session()->flash('message', 'Buku berhasil dihapus.');
+        }
     }
 
     public function render()

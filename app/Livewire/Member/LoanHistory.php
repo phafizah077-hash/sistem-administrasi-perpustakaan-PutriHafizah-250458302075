@@ -21,7 +21,6 @@ class LoanHistory extends Component
     {
         $this->selectedLoan = Loan::with('book.ratings.review')->findOrFail($loanId);
 
-        // Cek jika sudah ada rating sebelumnya
         $existingRating = $this->selectedLoan->book->ratings()
             ->where('user_id', Auth::id())
             ->first();
@@ -41,7 +40,14 @@ class LoanHistory extends Component
     {
         $this->validate([
             'rating' => 'required|integer|min:1|max:5',
-            'comment' => 'required|string|min:10',
+            'comment' => 'nullable|string',
+        ], [
+            // Custom Messages Bahasa Indonesia
+            'rating.required' => 'Wajib memberikan rating bintang.',
+            'rating.integer' => 'Rating harus berupa angka.',
+            'rating.min' => 'Rating minimal 1 bintang.',
+            'rating.max' => 'Rating maksimal 5 bintang.',
+            'comment.string' => 'Ulasan harus berupa teks.',
         ]);
 
         if ($this->selectedLoan) {

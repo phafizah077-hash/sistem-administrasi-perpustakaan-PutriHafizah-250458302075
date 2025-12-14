@@ -7,12 +7,9 @@ use App\Models\Author;
 use App\Models\Category;
 use Livewire\Component;
 use Livewire\WithFileUploads;
-use Illuminate\Support\Facades\Storage;
-use Livewire\Attributes\Layout; // <--- Pastikan baris ini ada
+use Livewire\Attributes\Layout;
 
-// Arahkan ke: resources/views/components/layouts/admin.blade.php
 #[Layout('components.layouts.admin')]
-
 class CreateBook extends Component
 {
     use WithFileUploads;
@@ -24,20 +21,70 @@ class CreateBook extends Component
     public $publisher;
     public $publication_year;
     public $stock;
+    public $sinopsis;
     public $image;
+    public $searchAuthor = '';
+    public $searchCategory = '';
 
-    public function save()
+    protected function rules()
     {
-        $this->validate([
+        return [
             'title' => 'required|string|max:255',
             'author_id' => 'required|exists:authors,id',
             'category_id' => 'required|exists:categories,id',
-            'isbn' => 'required|string|max:20|unique:books,isbn',
-            'publisher' => 'required|string|max:150',
-            'publication_year' => 'required|numeric|min:1000|max:' . (date('Y') + 1),
-            'stock' => 'required|numeric|min:0',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        ]);
+            // UBAH: Gunakan regex agar hanya menerima angka dan strip (-)
+            'isbn' => ['required', 'unique:books,isbn', 'regex:/^[0-9-]+$/'],
+            'publisher' => 'required|string',
+            'publication_year' => 'required|numeric',
+            'stock' => 'required|numeric|min:1',
+            'sinopsis' => 'nullable|string',
+            'image' => 'nullable|image|max:2048',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'title.required' => 'Judul buku wajib diisi.',
+            'author_id.required' => 'Penulis wajib dipilih.',
+            'category_id.required' => 'Kategori wajib dipilih.',
+            'isbn.required' => 'ISBN wajib diisi.',
+            'isbn.unique' => 'Nomor ISBN ini sudah terdaftar.',
+            // Pesan error khusus jika user memaksa input huruf
+            'isbn.regex' => 'Format ISBN salah. Hanya boleh angka dan tanda hubung (-).',
+            'publisher.required' => 'Penerbit wajib diisi.',
+            'publication_year.required' => 'Tahun terbit wajib diisi.',
+            'publication_year.numeric' => 'Tahun harus berupa angka.',
+            'stock.required' => 'Stok buku wajib diisi.',
+            'stock.numeric' => 'Stok harus berupa angka.',
+            'stock.min' => 'Stok minimal 1.',
+            'image.image' => 'File harus berupa gambar.',
+            'image.max' => 'Ukuran gambar maksimal 2MB.',
+        ];
+    }
+
+    public function updated($propertyName)
+    {
+        $this->validateOnly($propertyName);
+    }
+
+    public function selectAuthor($id, $name)
+    {
+        $this->author_id = $id;
+        $this->searchAuthor = $name;
+        $this->resetValidation('author_id');
+    }
+
+    public function selectCategory($id, $name)
+    {
+        $this->category_id = $id;
+        $this->searchCategory = $name;
+        $this->resetValidation('category_id');
+    }
+
+    public function save()
+    {
+        $this->validate();
 
         $imagePath = null;
         if ($this->image) {
@@ -52,18 +99,31 @@ class CreateBook extends Component
             'publisher' => $this->publisher,
             'publication_year' => $this->publication_year,
             'stock' => $this->stock,
+            'sinopsis' => $this->sinopsis ?? '-',
             'image' => $imagePath,
         ]);
 
-         session()->flash('message', 'Book created successfully.');
-        
-        return redirect()->route('admin.books');
+        session()->flash('message', 'Buku berhasil ditambahkan.');
+        return $this->redirect(route('admin.books'), navigate: true);
     }
 
     public function render()
     {
-        $authors = Author::all();
-        $categories = Category::all();
-        return view('livewire.admin.book.create-book', compact('authors', 'categories'));
+        $authors = Author::query()
+            ->when($this->searchAuthor, function ($query) {
+                $query->where('author', 'like', '%' . $this->searchAuthor . '%');
+            })
+            ->take(10)->get();
+
+        $categories = Category::query()
+            ->when($this->searchCategory, function ($query) {
+                $query->where('category', 'like', '%' . $this->searchCategory . '%');
+            })
+            ->take(10)->get();
+
+        return view('livewire.admin.book.create-book', [
+            'authors' => $authors,
+            'categories' => $categories
+        ]);
     }
 }

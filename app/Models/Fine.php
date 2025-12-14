@@ -14,8 +14,6 @@ class Fine extends Model
         'loan_id',
         'user_id',
         'amount',
-        'status',
-        'paid_at',
     ];
 
     public function loan(): BelongsTo

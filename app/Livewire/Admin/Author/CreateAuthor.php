@@ -5,15 +5,21 @@ namespace App\Livewire\Admin\Author;
 use App\Services\AuthorService;
 use Livewire\Component;
 use Livewire\Attributes\Validate;
-use Livewire\Attributes\Layout; // <--- Pastikan baris ini ada
+use Livewire\Attributes\Layout;
 
-// Arahkan ke: resources/views/components/layouts/admin.blade.php
 #[Layout('components.layouts.admin')]
-
 class CreateAuthor extends Component
 {
   #[Validate('required|string|max:255')]
   public string $author = '';
+
+  public function messages()
+  {
+    return [
+      'author.required' => 'Nama penulis wajib diisi.',
+      'author.max'      => 'Nama penulis tidak boleh lebih dari 255 karakter.',
+    ];
+  }
 
   public function save(AuthorService $authorService)
   {
@@ -21,7 +27,7 @@ class CreateAuthor extends Component
 
     $authorService->createAuthor($this->author);
 
-    session()->flash('message', 'Author created successfully.');
+    session()->flash('message', 'Penulis berhasil ditambahkan.');
 
     return redirect()->route('admin.authors');
   }

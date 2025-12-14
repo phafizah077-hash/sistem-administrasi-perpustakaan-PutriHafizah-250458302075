@@ -4,18 +4,27 @@ namespace App\Services;
 
 use App\Models\Book;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Builder;
 
 class BookService
 {
+    /**
+     * Mengambil daftar buku dengan filter pencarian dan kategori.
+     */
     public function getFilteredBooks(string $search, ?int $categoryId)
     {
         return Book::with(['author', 'category'])
+            // Logic Search
             ->when($search, function ($query, $search) {
-                $query->where('title', 'like', '%' . $search . '%')
-                    ->orWhereHas('author', function ($q) use ($search) {
-                        $q->where('author', 'like', '%' . $search . '%');
-                    });
+                $query->where(function (Builder $q) use ($search) {
+                    $q->where('title', 'like', '%' . $search . '%')
+                        ->orWhere('isbn', 'like', '%' . $search . '%')
+                        ->orWhereHas('author', function ($subQ) use ($search) {
+                            $subQ->where('author', 'like', '%' . $search . '%');
+                        });
+                });
             })
+            // Logic Filter Kategori
             ->when($categoryId, function ($query, $categoryId) {
                 $query->where('category_id', $categoryId);
             })
@@ -23,6 +32,7 @@ class BookService
             ->paginate(12);
     }
 
+    // ... method lain (getPaginatedBooks, createBook, dll) biarkan saja seperti semula ...
     public function getPaginatedBooks(
         ?string $searchQuery = null,
         ?int $categoryId = null,
