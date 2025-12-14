@@ -36,16 +36,16 @@ Route::get('/trigger-notifications', function () {
 
     $service = app(NotificationService::class);
 
-    $countDue3 = $service->sendDueDateWarnings(3); 
-    $countDue1 = $service->sendDueDateWarnings(1); 
+    $countDue3 = $service->sendDueDateWarnings(3);
+    $countDue1 = $service->sendDueDateWarnings(1);
     $countOverdue = $service->sendOverdueAlerts();
-    
-    return "✅ Notifikasi Sukses Dipicu:<br>" 
-         . "- Peringatan H-3: {$countDue3} notifikasi<br>"
-         . "- Peringatan H-1: {$countDue1} notifikasi<br>"
-         . "- Keterlambatan: {$countOverdue} notifikasi<br>"
-         . "Silakan cek tabel 'notifications' dan halaman anggota Anda.";
-})->middleware(['auth', 'role:Pustakawan'])->name('test.notifications'); 
+
+    return "✅ Notifikasi Sukses Dipicu:<br>"
+        . "- Peringatan H-3: {$countDue3} notifikasi<br>"
+        . "- Peringatan H-1: {$countDue1} notifikasi<br>"
+        . "- Keterlambatan: {$countOverdue} notifikasi<br>"
+        . "Silakan cek tabel 'notifications' dan halaman anggota Anda.";
+})->middleware(['auth', 'role:Pustakawan'])->name('test.notifications');
 
 // AUTH
 Route::view('profile', 'profile')
@@ -88,5 +88,20 @@ Route::prefix('admin')
         Route::get('/categories/create', CreateCategory::class)->name('categories.create');
         Route::get('/categories/{category}/edit', EditCategory::class)->name('categories.edit');
     });
+
+// --- RUTE JEMBATAN (DIPERBAIKI) ---
+Route::get('/dashboard', function () {
+    $user = Auth::user();
+
+    // Jika Pustakawan -> Masuk Dashboard Admin
+    if ($user->role === 'Pustakawan') {
+        return redirect()->route('admin.dashboard');
+    }
+
+    // Jika Anggota -> Masuk ke HOME (Landing Page)
+    // Supaya bisa langsung lihat buku, bukan lihat profil
+    return redirect()->route('home');
+})->middleware(['auth', 'verified'])->name('dashboard');
+// ----------------------------------
 
 require __DIR__ . '/auth.php';
