@@ -8,7 +8,7 @@ use Carbon\Carbon;
 
 class FineService
 {
-    const FINE_RATE_PER_DAY = 1000; 
+    const FINE_RATE_PER_DAY = 1000;
 
     public function createFineIfOverdue(Loan $loan): ?Fine
     {

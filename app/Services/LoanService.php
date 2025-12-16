@@ -6,9 +6,9 @@ use App\Models\Book;
 use App\Models\Loan;
 use App\Models\User;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Database\Eloquent\Collection;
 use Exception;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Auth;
 
 class LoanService
 {
@@ -37,7 +37,7 @@ class LoanService
     {
         $book = Book::findOrFail($bookId);
 
-        if (!$book->isAvailable()) {
+        if (! $book->isAvailable()) {
             throw new Exception('Buku tidak tersedia untuk dipinjam.');
         }
 
@@ -62,11 +62,11 @@ class LoanService
         $loan->update([
             'status' => 'returned',
         ]);
-        
+
         $loan->book->increment('stock');
 
         $loan->returnBook()->create([
-            'librarian_id' => Auth::id(), 
+            'librarian_id' => Auth::id(),
             'return_date' => Carbon::now(),
         ]);
 

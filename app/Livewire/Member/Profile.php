@@ -2,10 +2,10 @@
 
 namespace App\Livewire\Member;
 
-use Livewire\Component;
 use App\Services\UserService;
-use Livewire\Attributes\Rule;
 use Illuminate\Support\Facades\Auth;
+use Livewire\Attributes\Rule;
+use Livewire\Component;
 
 class Profile extends Component
 {
@@ -28,6 +28,7 @@ class Profile extends Component
     public string $password_confirmation = '';
 
     public bool $isEditing = false;
+
     protected $userService;
 
     public function boot(UserService $userService)
@@ -57,7 +58,7 @@ class Profile extends Component
         $userId = Auth::id();
         $validatedData = $this->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|email|max:255|unique:users,email,' . $userId,
+            'email' => 'required|email|max:255|unique:users,email,'.$userId,
             'address' => 'nullable|string|max:255',
             'phone' => 'nullable|string|max:20',
             'password' => 'nullable|string|min:8|confirmed',

@@ -13,8 +13,8 @@ class DatabaseSeeder extends Seeder
         User::factory()->create([
             'name' => 'Admin User',
             'email' => 'admin@bookify.com',
-            'role' => 'Pustakawan', 
-            'password'  =>  Hash::make('12345'),
+            'role' => 'Pustakawan',
+            'password' => Hash::make('12345'),
             'phone' => '0812345',
             'address' => 'Bogor',
         ]);

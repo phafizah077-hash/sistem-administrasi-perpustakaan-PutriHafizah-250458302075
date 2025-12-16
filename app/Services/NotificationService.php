@@ -39,7 +39,7 @@ class NotificationService
             ->get();
 
         foreach ($loans as $loan) {
-            $fineMessage = "Anda akan dikenakan denda atas keterlambatan pengembalian ini sesuai kebijakan perpustakaan.";
+            $fineMessage = 'Anda akan dikenakan denda atas keterlambatan pengembalian ini sesuai kebijakan perpustakaan.';
 
             Notification::firstOrCreate(
                 [

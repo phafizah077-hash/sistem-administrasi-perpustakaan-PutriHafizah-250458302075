@@ -2,13 +2,13 @@
 
 namespace App\Services;
 
-use Exception;
 use App\Models\Book;
-use App\Models\User;
 use App\Models\Rating;
 use App\Models\Review;
-use Illuminate\Support\Facades\DB;
+use App\Models\User;
+use Exception;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class RatingService
 {

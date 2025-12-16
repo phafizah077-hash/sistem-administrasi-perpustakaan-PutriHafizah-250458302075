@@ -13,8 +13,8 @@ class UserService
         $users = User::query();
 
         if ($searchQuery) {
-            $users->where('name', 'like', '%' . $searchQuery . '%')
-                ->orWhere('email', 'like', '%' . $searchQuery . '%');
+            $users->where('name', 'like', '%'.$searchQuery.'%')
+                ->orWhere('email', 'like', '%'.$searchQuery.'%');
         }
 
         return $users->latest()->paginate($perPage);
@@ -23,18 +23,20 @@ class UserService
     public function createUser(array $data): User
     {
         $data['password'] = Hash::make($data['password']);
+
         return User::create($data);
     }
 
     public function updateUser(User $user, array $data): User
     {
-        if (!empty($data['password'])) {
+        if (! empty($data['password'])) {
             $data['password'] = Hash::make($data['password']);
         } else {
             unset($data['password']);
         }
 
         $user->update($data);
+
         return $user;
     }
 

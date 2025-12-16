@@ -2,11 +2,12 @@
 
 namespace App\Livewire\Member;
 
-use Livewire\Component;
+use App\Models\Notification;
+use App\Models\User;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\On;
-use Illuminate\Database\Eloquent\Collection;
-use App\Models\User;
+use Livewire\Component;
 
 class NotificationUser extends Component
 {
@@ -14,17 +15,17 @@ class NotificationUser extends Component
 
     #[On('notification-triggered')]
     #[On('refreshNotifications')]
-
     public function mount()
     {
-        $this->notifications = new Collection();
+        $this->notifications = new Collection;
         $this->refreshNotifications();
     }
 
     public function refreshNotifications()
     {
-        if (!Auth::check()) {
-            $this->notifications = new Collection();
+        if (! Auth::check()) {
+            $this->notifications = new Collection;
+
             return;
         }
 
@@ -41,11 +42,9 @@ class NotificationUser extends Component
         /** @var User $user */
         $user = Auth::user();
 
-        if ($notification = $user->notifications()->find($notificationId)) {
-            $notification->delete();
-        }
+        Notification::where('id', $notificationId)->where('user_id', $user->id)->delete();
 
-        $this->refreshNotifications();
+        $this->dispatch('refreshNotifications');
     }
 
     public function markAllAsRead()
@@ -53,10 +52,9 @@ class NotificationUser extends Component
         /** @var User $user */
         $user = Auth::user();
 
-        $user->notifications()->delete();
-        $this->refreshNotifications();
+        Notification::where('user_id', $user->id)->delete();
+        $this->dispatch('refreshNotifications');
     }
-
 
     public function render()
     {

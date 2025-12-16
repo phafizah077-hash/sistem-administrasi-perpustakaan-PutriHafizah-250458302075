@@ -11,7 +11,6 @@ class ViewBook extends Component
     public ?Book $book = null;
 
     #[On('view-book-detail')]
-    
     public function showBook(int $bookId)
     {
         $this->book = Book::with(['author', 'category'])->find($bookId);

@@ -2,10 +2,10 @@
 
 namespace App\Livewire\Admin;
 
-use Livewire\Component;
-use Livewire\WithPagination;
 use App\Services\LoanService;
 use Livewire\Attributes\Layout;
+use Livewire\Component;
+use Livewire\WithPagination;
 
 #[Layout('components.layouts.admin')]
 
@@ -25,7 +25,7 @@ class TransactionLoan extends Component
     public function render()
     {
         return view('livewire.admin.transaction-loan', [
-            'loans' => $this->loanService->getAllLoans()
+            'loans' => $this->loanService->getAllLoans(),
         ]);
     }
 }

@@ -3,8 +3,8 @@
 namespace App\Services;
 
 use App\Models\Book;
-use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class BookService
 {
@@ -17,10 +17,10 @@ class BookService
             // Logic Search
             ->when($search, function ($query, $search) {
                 $query->where(function (Builder $q) use ($search) {
-                    $q->where('title', 'like', '%' . $search . '%')
-                        ->orWhere('isbn', 'like', '%' . $search . '%')
+                    $q->where('title', 'like', '%'.$search.'%')
+                        ->orWhere('isbn', 'like', '%'.$search.'%')
                         ->orWhereHas('author', function ($subQ) use ($search) {
-                            $subQ->where('author', 'like', '%' . $search . '%');
+                            $subQ->where('author', 'like', '%'.$search.'%');
                         });
                 });
             })
@@ -44,12 +44,12 @@ class BookService
 
         if ($searchQuery) {
             $books->where(function ($q) use ($searchQuery) {
-                $q->where('title', 'like', '%' . $searchQuery . '%')
+                $q->where('title', 'like', '%'.$searchQuery.'%')
                     ->orWhereHas('author', function ($q) use ($searchQuery) {
-                        $q->where('author', 'like', '%' . $searchQuery . '%');
+                        $q->where('author', 'like', '%'.$searchQuery.'%');
                     })
                     ->orWhereHas('category', function ($q) use ($searchQuery) {
-                        $q->where('category', 'like', '%' . $searchQuery . '%');
+                        $q->where('category', 'like', '%'.$searchQuery.'%');
                     });
             });
         }
@@ -77,6 +77,7 @@ class BookService
     public function updateBook(Book $book, array $data): Book
     {
         $book->update($data);
+
         return $book;
     }
 

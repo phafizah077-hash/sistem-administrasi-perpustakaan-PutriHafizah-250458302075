@@ -4,18 +4,24 @@ namespace App\Livewire\Admin\User;
 
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
-use Livewire\Component;
 use Livewire\Attributes\Layout;
+use Livewire\Component;
 
 #[Layout('components.layouts.admin')]
 class CreateUser extends Component
 {
     public $name;
+
     public $email;
+
     public $password;
+
     public $password_confirmation;
+
     public $role;
+
     public $phone;
+
     public $address;
 
     protected function rules()

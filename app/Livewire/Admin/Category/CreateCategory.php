@@ -3,10 +3,10 @@
 namespace App\Livewire\Admin\Category;
 
 use App\Services\CategoryService;
-use Livewire\Component;
-use Livewire\Attributes\Validate;
 use Illuminate\Support\Str;
 use Livewire\Attributes\Layout;
+use Livewire\Attributes\Validate;
+use Livewire\Component;
 
 #[Layout('components.layouts.admin')]
 class CreateCategory extends Component
@@ -30,8 +30,8 @@ class CreateCategory extends Component
         return [
             // Pesan untuk Kategori
             'category.required' => 'Nama kategori wajib diisi.',
-            'category.max'      => 'Nama kategori maksimal 100 karakter.',
-            'category.unique'   => 'Nama kategori ini sudah ada, silakan gunakan nama lain.',
+            'category.max' => 'Nama kategori maksimal 100 karakter.',
+            'category.unique' => 'Nama kategori ini sudah ada, silakan gunakan nama lain.',
         ];
     }
 

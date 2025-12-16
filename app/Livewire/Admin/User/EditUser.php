@@ -2,10 +2,10 @@
 
 namespace App\Livewire\Admin\User;
 
-use Livewire\Component;
 use App\Models\User;
 use App\Services\UserService;
 use Livewire\Attributes\Layout;
+use Livewire\Component;
 
 #[Layout('components.layouts.admin')]
 class EditUser extends Component
@@ -13,12 +13,17 @@ class EditUser extends Component
     public User $user;
 
     public $name;
+
     public $email;
+
     public $role;
+
     public $phone;
+
     public $address;
 
     public $password = '';
+
     public $password_confirmation = '';
 
     public function mount(User $user)
@@ -35,7 +40,7 @@ class EditUser extends Component
     {
         return [
             'name' => 'required|string|max:255',
-            'email' => 'required|email|max:255|unique:users,email,' . $this->user->id,
+            'email' => 'required|email|max:255|unique:users,email,'.$this->user->id,
             'role' => 'required|in:Pustakawan,Anggota',
             'phone' => 'nullable|string|max:50',
             'address' => 'nullable|string',
@@ -76,7 +81,7 @@ class EditUser extends Component
             'address' => $this->address,
         ];
 
-        if (!empty($this->password)) {
+        if (! empty($this->password)) {
             $data['password'] = $this->password;
         }
 

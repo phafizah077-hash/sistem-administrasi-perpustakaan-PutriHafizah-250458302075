@@ -3,9 +3,9 @@
 namespace App\Livewire\Admin;
 
 use App\Models\User;
+use Livewire\Attributes\Layout;
 use Livewire\Component;
 use Livewire\WithPagination;
-use Livewire\Attributes\Layout; 
 
 #[Layout('components.layouts.admin')]
 
@@ -19,9 +19,10 @@ class UserManajemen extends Component
     {
         if ($userId == auth()->id()) {
             session()->flash('error', 'You cannot delete yourself.');
+
             return;
         }
-        
+
         User::find($userId)->delete();
         session()->flash('message', 'User berhasil dihapus.');
     }

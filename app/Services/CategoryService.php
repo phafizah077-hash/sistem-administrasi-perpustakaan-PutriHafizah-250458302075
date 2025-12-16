@@ -12,7 +12,7 @@ class CategoryService
         $categories = Category::query();
 
         if ($searchQuery) {
-            $categories->where('category', 'like', '%' . $searchQuery . '%');
+            $categories->where('category', 'like', '%'.$searchQuery.'%');
         }
 
         return $categories->latest()->paginate($perPage);
@@ -32,6 +32,7 @@ class CategoryService
             'category' => $categoryName,
             'slug' => $slug,
         ]);
+
         return $category;
     }
 

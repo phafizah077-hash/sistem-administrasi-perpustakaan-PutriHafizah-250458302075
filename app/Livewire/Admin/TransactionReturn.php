@@ -2,12 +2,12 @@
 
 namespace App\Livewire\Admin;
 
-use App\Models\Loan;
-use Livewire\Component;
 use App\Exports\LoansExport;
-use Livewire\WithPagination;
+use App\Models\Loan;
 use App\Services\ReturnService;
 use Livewire\Attributes\Layout;
+use Livewire\Component;
+use Livewire\WithPagination;
 use Maatwebsite\Excel\Facades\Excel;
 
 #[Layout('components.layouts.admin')]
@@ -36,6 +36,7 @@ class TransactionReturn extends Component
     {
         // Untuk export excel tetap pakai get() karena butuh semua data
         $loans = Loan::where('status', 'borrowed')->latest()->get();
+
         return Excel::download(new LoansExport($loans), 'daftar-peminjaman-terkena-denda.xlsx');
     }
 

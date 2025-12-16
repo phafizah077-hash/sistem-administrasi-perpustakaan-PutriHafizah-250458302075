@@ -2,16 +2,16 @@
 
 namespace App\Livewire\Admin;
 
-use Carbon\Carbon;
 use App\Enums\Role;
+use App\Models\Author;
 use App\Models\Book;
+use App\Models\Category;
 use App\Models\Loan;
 use App\Models\User;
-use App\Models\Author;
-use Livewire\Component;
-use App\Models\Category;
+use Carbon\Carbon;
+use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
-use Livewire\Attributes\Layout; 
+use Livewire\Component;
 
 #[Layout('components.layouts.admin')]
 #[Title('Dashboard Admin - BookifyLibrary')]
@@ -19,10 +19,15 @@ use Livewire\Attributes\Layout;
 class Dashboard extends Component
 {
     public $userCount;
+
     public $authorCount;
+
     public $categoryCount;
+
     public $monthlyLoans;
+
     public $monthlyReturns;
+
     public $bookStatus;
 
     public function mount()
@@ -67,7 +72,7 @@ class Dashboard extends Component
         $this->bookStatus = [
             'available' => Book::where('stock', '>', 0)->count(),
             'borrowed' => Loan::where('status', 'borrowed')->count(),
-            'lost_damaged' => 0, 
+            'lost_damaged' => 0,
         ];
     }
 

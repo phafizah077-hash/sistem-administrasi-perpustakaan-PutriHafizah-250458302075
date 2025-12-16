@@ -4,10 +4,10 @@ namespace App\Livewire\Admin\Loan;
 
 use App\Models\Book;
 use App\Models\User;
-use Livewire\Component;
 use App\Services\LoanService;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Layout;
+use Livewire\Component;
 
 #[Layout('components.layouts.admin')]
 class CreateLoan extends Component
@@ -16,10 +16,13 @@ class CreateLoan extends Component
     // Atau tetap pakai #[Rule] tapi kita override pesannya di bawah.
 
     public $userId = '';
+
     public $bookId = '';
+
     public $loanDays = 7;
 
     public $searchUser = '';
+
     public $searchBook = '';
 
     // Definisikan rules secara manual di sini atau di function rules()
@@ -38,13 +41,13 @@ class CreateLoan extends Component
     {
         return [
             'userId.required' => 'Nama Peminjam wajib dipilih.',
-            'userId.exists'   => 'Data peminjam tidak valid.',
+            'userId.exists' => 'Data peminjam tidak valid.',
 
             'bookId.required' => 'Judul Buku wajib dipilih.',
-            'bookId.exists'   => 'Data buku tidak valid.',
+            'bookId.exists' => 'Data buku tidak valid.',
 
             'loanDays.required' => 'Durasi peminjaman wajib diisi.',
-            'loanDays.min'      => 'Durasi minimal 1 hari.',
+            'loanDays.min' => 'Durasi minimal 1 hari.',
         ];
     }
     // ----------------------------
@@ -63,6 +66,7 @@ class CreateLoan extends Component
             );
 
             session()->flash('message', 'Peminjaman berhasil dibuat.');
+
             return $this->redirect(route('admin.loans'), navigate: true);
         } catch (\Exception $e) {
             session()->flash('error', $e->getMessage());
@@ -89,21 +93,21 @@ class CreateLoan extends Component
     {
         $users = User::where('role', 'Anggota')
             ->when($this->searchUser, function ($query) {
-                $query->where('name', 'like', '%' . $this->searchUser . '%');
+                $query->where('name', 'like', '%'.$this->searchUser.'%');
             })
             ->take(10)
             ->get();
 
         $books = Book::where('stock', '>', 0)
             ->when($this->searchBook, function ($query) {
-                $query->where('title', 'like', '%' . $this->searchBook . '%');
+                $query->where('title', 'like', '%'.$this->searchBook.'%');
             })
             ->take(10)
             ->get();
 
         return view('livewire.admin.loan.create-loan', [
             'users' => $users,
-            'books' => $books
+            'books' => $books,
         ]);
     }
 }

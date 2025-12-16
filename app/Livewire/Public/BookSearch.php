@@ -2,16 +2,17 @@
 
 namespace App\Livewire\Public;
 
-use Livewire\Component;
 use App\Models\Category;
-use Livewire\WithPagination;
 use App\Services\BookService;
+use Livewire\Component;
+use Livewire\WithPagination;
 
 class BookSearch extends Component
 {
     use WithPagination;
 
     public $search = '';
+
     public $categoryFilter = null;
 
     protected $queryString = [

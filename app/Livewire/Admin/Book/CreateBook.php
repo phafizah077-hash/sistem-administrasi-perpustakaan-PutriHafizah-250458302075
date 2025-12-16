@@ -2,12 +2,12 @@
 
 namespace App\Livewire\Admin\Book;
 
-use App\Models\Book;
 use App\Models\Author;
+use App\Models\Book;
 use App\Models\Category;
+use Livewire\Attributes\Layout;
 use Livewire\Component;
 use Livewire\WithFileUploads;
-use Livewire\Attributes\Layout;
 
 #[Layout('components.layouts.admin')]
 class CreateBook extends Component
@@ -15,15 +15,25 @@ class CreateBook extends Component
     use WithFileUploads;
 
     public $title;
+
     public $author_id;
+
     public $category_id;
+
     public $isbn;
+
     public $publisher;
+
     public $publication_year;
+
     public $stock;
+
     public $sinopsis;
+
     public $image;
+
     public $searchAuthor = '';
+
     public $searchCategory = '';
 
     protected function rules()
@@ -104,6 +114,7 @@ class CreateBook extends Component
         ]);
 
         session()->flash('message', 'Buku berhasil ditambahkan.');
+
         return $this->redirect(route('admin.books'), navigate: true);
     }
 
@@ -111,19 +122,19 @@ class CreateBook extends Component
     {
         $authors = Author::query()
             ->when($this->searchAuthor, function ($query) {
-                $query->where('author', 'like', '%' . $this->searchAuthor . '%');
+                $query->where('author', 'like', '%'.$this->searchAuthor.'%');
             })
             ->take(10)->get();
 
         $categories = Category::query()
             ->when($this->searchCategory, function ($query) {
-                $query->where('category', 'like', '%' . $this->searchCategory . '%');
+                $query->where('category', 'like', '%'.$this->searchCategory.'%');
             })
             ->take(10)->get();
 
         return view('livewire.admin.book.create-book', [
             'authors' => $authors,
-            'categories' => $categories
+            'categories' => $categories,
         ]);
     }
 }

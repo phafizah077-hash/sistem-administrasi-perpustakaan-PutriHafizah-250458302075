@@ -2,13 +2,13 @@
 
 namespace App\Livewire\Admin\Book;
 
-use Livewire\Component;
-use Livewire\WithFileUploads;
-use App\Models\Book;
 use App\Models\Author;
+use App\Models\Book;
 use App\Models\Category;
 use App\Services\BookService;
 use Livewire\Attributes\Layout;
+use Livewire\Component;
+use Livewire\WithFileUploads;
 
 #[Layout('components.layouts.admin')]
 class EditBook extends Component
@@ -19,19 +19,28 @@ class EditBook extends Component
 
     // HAPUS variable $form, ganti dengan properti langsung agar sesuai dengan View
     public $title;
+
     public $author_id;
+
     public $category_id;
+
     public $isbn;
+
     public $publisher;
+
     public $publication_year;
+
     public $stock;
+
     public $sinopsis;
 
     public $image;
+
     public $existingImage;
 
     // Variabel Search
     public $searchAuthor = '';
+
     public $searchCategory = '';
 
     public function mount(Book $book)
@@ -61,7 +70,7 @@ class EditBook extends Component
             'title' => 'required|string|max:255',
             'author_id' => 'required|exists:authors,id',
             'category_id' => 'required|exists:categories,id',
-            'isbn' => ['required', 'string', 'max:20', 'unique:books,isbn,' . $this->book->id, 'regex:/^[0-9-]+$/'],
+            'isbn' => ['required', 'string', 'max:20', 'unique:books,isbn,'.$this->book->id, 'regex:/^[0-9-]+$/'],
             'publisher' => 'required|string|max:150',
             'publication_year' => 'required|integer|digits:4',
             'stock' => 'required|integer|min:1',
@@ -152,19 +161,19 @@ class EditBook extends Component
     {
         $authors = Author::query()
             ->when($this->searchAuthor, function ($query) {
-                $query->where('author', 'like', '%' . $this->searchAuthor . '%');
+                $query->where('author', 'like', '%'.$this->searchAuthor.'%');
             })
             ->take(10)->get();
 
         $categories = Category::query()
             ->when($this->searchCategory, function ($query) {
-                $query->where('category', 'like', '%' . $this->searchCategory . '%');
+                $query->where('category', 'like', '%'.$this->searchCategory.'%');
             })
             ->take(10)->get();
 
         return view('livewire.admin.book.edit-book', [
             'authors' => $authors,
-            'categories' => $categories
+            'categories' => $categories,
         ]);
     }
 }

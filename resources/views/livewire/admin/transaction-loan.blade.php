@@ -64,7 +64,9 @@
                                     <tbody>
                                         @forelse ($loans as $loan)
                                         <tr>
-                                            <td class="text-center">{{ $loop->iteration }}</td>
+                                            <td class="text-center">
+                                                {{ $loans->firstItem() + $loop->index }}
+                                            </td>
                                             <td class="fw-semibold text-dark">{{ $loan->user->name }}</td>
                                             <td class="text-muted">{{ $loan->book->title }}</td>
                                             <td class="text-center font-monospace text-secondary">

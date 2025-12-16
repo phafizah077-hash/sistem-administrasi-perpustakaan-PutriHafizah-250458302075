@@ -1,28 +1,28 @@
 <?php
 
-use App\Livewire\Admin\Dashboard;
-use App\Livewire\Public\HomePage;
-use App\Livewire\Public\BookDetail;
-use App\Livewire\Member\LoanHistory;
-use Illuminate\Support\Facades\Auth;
-use App\Livewire\Admin\Book\EditBook;
-use App\Livewire\Admin\BookManajemen;
-use App\Livewire\Admin\User\EditUser;
-use App\Livewire\Admin\UserManajemen;
-use App\Services\NotificationService;
-use Illuminate\Support\Facades\Route;
+use App\Livewire\Admin\Author\CreateAuthor;
+use App\Livewire\Admin\Author\EditAuthor;
 use App\Livewire\Admin\AuthorManajemen;
 use App\Livewire\Admin\Book\CreateBook;
+use App\Livewire\Admin\Book\EditBook;
+use App\Livewire\Admin\BookManajemen;
+use App\Livewire\Admin\Category\CreateCategory;
+use App\Livewire\Admin\Category\EditCategory;
+use App\Livewire\Admin\CategoryManajemen;
+use App\Livewire\Admin\Dashboard;
 use App\Livewire\Admin\Loan\CreateLoan;
 use App\Livewire\Admin\TransactionLoan;
-use App\Livewire\Admin\User\CreateUser;
-use App\Livewire\Admin\Author\EditAuthor;
-use App\Livewire\Admin\CategoryManajemen;
 use App\Livewire\Admin\TransactionReturn;
-use App\Livewire\Admin\Author\CreateAuthor;
-use App\Livewire\Admin\Category\EditCategory;
-use App\Livewire\Admin\Category\CreateCategory;
+use App\Livewire\Admin\User\CreateUser;
+use App\Livewire\Admin\User\EditUser;
+use App\Livewire\Admin\UserManajemen;
+use App\Livewire\Member\LoanHistory;
 use App\Livewire\Member\Profile;
+use App\Livewire\Public\BookDetail;
+use App\Livewire\Public\HomePage;
+use App\Services\NotificationService;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 
 // PUBLIC
 Route::get('/', HomePage::class)->name('home');
@@ -30,21 +30,19 @@ Route::get('/book/{id}', BookDetail::class)->name('books.detail');
 
 // ROUTE UNTUK MENGUJI NOTIFIKASI
 Route::get('/trigger-notifications', function () {
-    if (!Auth::check()) {
+    if (! Auth::check()) {
         return redirect('/login')->with('error', 'Harap login sebagai pustakawan untuk menguji notifikasi.');
     }
 
     $service = app(NotificationService::class);
 
     $countDue3 = $service->sendDueDateWarnings(3);
-    $countDue1 = $service->sendDueDateWarnings(1);
     $countOverdue = $service->sendOverdueAlerts();
 
-    return "✅ Notifikasi Sukses Dipicu:<br>"
-        . "- Peringatan H-3: {$countDue3} notifikasi<br>"
-        . "- Peringatan H-1: {$countDue1} notifikasi<br>"
-        . "- Keterlambatan: {$countOverdue} notifikasi<br>"
-        . "Silakan cek tabel 'notifications' dan halaman anggota Anda.";
+    return '✅ Notifikasi Sukses Dipicu:<br>'
+        ."- Peringatan H-3: {$countDue3} notifikasi<br>"
+        ."- Keterlambatan: {$countOverdue} notifikasi<br>"
+        ."Silakan cek tabel 'notifications' dan halaman anggota Anda.";
 })->middleware(['auth', 'role:Pustakawan'])->name('test.notifications');
 
 // AUTH
@@ -104,4 +102,4 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 // ----------------------------------
 
-require __DIR__ . '/auth.php';
+require __DIR__.'/auth.php';

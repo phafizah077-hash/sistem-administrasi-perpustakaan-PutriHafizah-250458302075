@@ -13,8 +13,11 @@ class LoanHistory extends Component
     use WithPagination;
 
     public bool $showModal = false;
+
     public ?Loan $selectedLoan = null;
+
     public int $rating = 0;
+
     public string $comment = '';
 
     public function openReviewModal($loanId)

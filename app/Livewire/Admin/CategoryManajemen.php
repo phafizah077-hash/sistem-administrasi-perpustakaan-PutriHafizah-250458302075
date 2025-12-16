@@ -3,9 +3,9 @@
 namespace App\Livewire\Admin;
 
 use App\Models\Category;
+use Livewire\Attributes\Layout;
 use Livewire\Component;
 use Livewire\WithPagination;
-use Livewire\Attributes\Layout;
 
 #[Layout('components.layouts.admin')]
 

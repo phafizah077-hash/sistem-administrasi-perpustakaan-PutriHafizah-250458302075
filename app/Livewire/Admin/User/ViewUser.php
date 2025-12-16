@@ -11,7 +11,6 @@ class ViewUser extends Component
     public ?User $user = null;
 
     #[On('view-user-detail')]
-    
     public function showUser(int $userId)
     {
         $this->user = User::find($userId);

@@ -12,7 +12,7 @@ class AuthorService
         $authors = Author::query();
 
         if ($searchQuery) {
-            $authors->where('author', 'like', '%' . $searchQuery . '%');
+            $authors->where('author', 'like', '%'.$searchQuery.'%');
         }
 
         return $authors->latest()->paginate($perPage);
@@ -26,6 +26,7 @@ class AuthorService
     public function updateAuthor(Author $author, string $authorName): Author
     {
         $author->update(['author' => $authorName]);
+
         return $author;
     }
 
