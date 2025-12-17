@@ -17,7 +17,6 @@ class EditBook extends Component
 
     public Book $book;
 
-    // HAPUS variable $form, ganti dengan properti langsung agar sesuai dengan View
     public $title;
 
     public $author_id;
@@ -38,7 +37,6 @@ class EditBook extends Component
 
     public $existingImage;
 
-    // Variabel Search
     public $searchAuthor = '';
 
     public $searchCategory = '';
@@ -48,7 +46,6 @@ class EditBook extends Component
         $this->book = $book;
         $this->existingImage = $book->image;
 
-        // Isi variabel langsung (tanpa $this->form)
         $this->title = $book->title;
         $this->author_id = $book->author_id;
         $this->category_id = $book->category_id;
@@ -58,7 +55,6 @@ class EditBook extends Component
         $this->stock = $book->stock;
         $this->sinopsis = $book->sinopsis;
 
-        // Isi kolom search dengan data yang ada
         $this->searchAuthor = $book->author->author ?? '';
         $this->searchCategory = $book->category->category ?? '';
     }
@@ -66,7 +62,6 @@ class EditBook extends Component
     protected function rules()
     {
         return [
-            // Perhatikan: Nama rules TIDAK BOLEH pakai 'form.' depannya
             'title' => 'required|string|max:255',
             'author_id' => 'required|exists:authors,id',
             'category_id' => 'required|exists:categories,id',
@@ -79,7 +74,6 @@ class EditBook extends Component
         ];
     }
 
-    // Translate Error ke Indonesia
     public function messages()
     {
         return [
@@ -98,8 +92,6 @@ class EditBook extends Component
         ];
     }
 
-    // LOGIKA PENTING: Jika user mengetik/mengubah search, reset ID-nya
-    // Ini memaksa user untuk KLIK pilihan di dropdown.
     public function updatedSearchAuthor()
     {
         $this->author_id = null;
@@ -119,14 +111,14 @@ class EditBook extends Component
     {
         $this->author_id = $id;
         $this->searchAuthor = $name;
-        $this->resetValidation('author_id'); // Hapus merah-merah
+        $this->resetValidation('author_id');
     }
 
     public function selectCategory($id, $name)
     {
         $this->category_id = $id;
         $this->searchCategory = $name;
-        $this->resetValidation('category_id'); // Hapus merah-merah
+        $this->resetValidation('category_id');
     }
 
     public function save(BookService $bookService)

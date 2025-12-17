@@ -15,7 +15,6 @@ class TransactionReturn extends Component
 {
     use WithPagination;
 
-    // Tambahkan ini agar tampilan pagination sesuai dengan tema Bootstrap (jika pakai bootstrap)
     protected $paginationTheme = 'bootstrap';
 
     protected $returnService;
@@ -34,7 +33,6 @@ class TransactionReturn extends Component
 
     public function exportExcel()
     {
-        // Untuk export excel tetap pakai get() karena butuh semua data
         $loans = Loan::where('status', 'borrowed')->latest()->get();
 
         return Excel::download(new LoansExport($loans), 'daftar-peminjaman-terkena-denda.xlsx');
@@ -42,7 +40,6 @@ class TransactionReturn extends Component
 
     public function render()
     {
-        // PERBAIKAN: Ganti get() menjadi paginate(10)
         $loans = Loan::where('status', 'borrowed')->latest()->paginate(10);
 
         return view('livewire.admin.transaction-return', [

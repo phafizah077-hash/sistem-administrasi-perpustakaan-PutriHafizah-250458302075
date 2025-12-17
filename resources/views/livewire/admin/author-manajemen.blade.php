@@ -39,7 +39,6 @@
                         </div>
 
                         <div class="card-body">
-                            {{-- Notifikasi Otomatis Hilang (Alpine.js) --}}
                             @if (session()->has('message'))
                             <div x-data="{ show: true }"
                                 x-init="setTimeout(() => show = false, 3000)"
@@ -61,7 +60,6 @@
                                     </thead>
                                     <tbody>
                                         @foreach ($authors as $author)
-                                        {{-- PENTING: wire:key agar Livewire tidak bingung saat hapus data --}}
                                         <tr wire:key="{{ $author->id }}">
                                             <td class="text-center">{{ $authors->firstItem() + $loop->index }}</td>
 

@@ -64,7 +64,6 @@
                                     <tbody>
                                         @forelse ($loans as $index => $loan)
                                         <tr>
-                                            {{-- Sesuaikan nomor urut dengan pagination --}}
                                             <td class="text-center">{{ $loans->firstItem() + $index }}</td>
 
                                             <td class="fw-semibold text-dark">{{ $loan->user->name }}</td>
@@ -125,7 +124,6 @@
                             </div>
                         </div>
                         <div class="card-footer bg-white d-flex justify-content-end py-3">
-                            {{-- Komentar dihapus agar pagination muncul --}}
                             {{ $loans->links() }}
                         </div>
                     </div>

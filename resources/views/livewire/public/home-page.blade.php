@@ -1,9 +1,8 @@
 <div>
-    {{-- HERO SECTION --}}
     <div class="bg-gradient-to-br from-indigo-900 via-slate-900 to-slate-900 text-white py-24 px-4 sm:px-6 relative overflow-hidden">
         <div class="absolute top-0 right-0 opacity-10 pointer-events-none">
             <svg class="w-96 h-96 transform translate-x-20 -translate-y-20" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
             </svg>
         </div>
         <div class="max-w-7xl mx-auto text-center relative z-10">
@@ -25,7 +24,6 @@
         </div>
     </div>
 
-    {{-- LAYANAN SECTION --}}
     <div id="layanan" class="py-20 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
@@ -44,7 +42,6 @@
                     <p class="text-slate-500 leading-relaxed">Akses ke ribuan judul buku dari berbagai genre, mulai dari fiksi, edukasi, hingga jurnal ilmiah.</p>
                 </div>
 
-                {{-- Card 2 --}}
                 <div class="bg-slate-50 p-8 rounded-2xl border border-slate-100 hover:border-indigo-100 hover:shadow-xl hover:shadow-indigo-100/50 transition duration-300 group">
                     <div class="w-12 h-12 bg-indigo-100 rounded-xl flex items-center justify-center text-indigo-600 mb-6 group-hover:scale-110 transition">
                         <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -55,7 +52,6 @@
                     <p class="text-slate-500 leading-relaxed">Sistem peminjaman dan pengembalian yang terintegrasi, cepat, dan dapat dipantau secara real-time.</p>
                 </div>
 
-                {{-- Card 3 --}}
                 <div class="bg-slate-50 p-8 rounded-2xl border border-slate-100 hover:border-indigo-100 hover:shadow-xl hover:shadow-indigo-100/50 transition duration-300 group">
                     <div class="w-12 h-12 bg-indigo-100 rounded-xl flex items-center justify-center text-indigo-600 mb-6 group-hover:scale-110 transition">
                         <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -69,7 +65,6 @@
         </div>
     </div>
 
-    {{-- KATALOG SECTION (Tujuan Nav Link #katalog) --}}
     <div id="katalog" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 border-t border-slate-200">
         <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-10 md:mb-12 gap-6">
             <div class="w-full md:w-auto">
@@ -80,11 +75,9 @@
                 Temukan bacaan favorit Anda hari ini. Gunakan fitur pencarian untuk hasil yang lebih spesifik.
             </p>
         </div>
-        {{-- Livewire Component Kamu --}}
         @livewire('public.book-search')
     </div>
 
-    {{-- TENTANG SECTION (BARU - Tujuan Nav Link #tentang) --}}
     <div id="tentang" class="bg-indigo-900 py-20 px-4">
         <div class="max-w-5xl mx-auto bg-indigo-800 rounded-3xl p-8 md:p-12 text-center shadow-2xl shadow-indigo-900/50 relative overflow-hidden">
             <div class="absolute top-0 left-0 w-full h-full opacity-10">

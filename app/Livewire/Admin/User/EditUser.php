@@ -48,14 +48,11 @@ class EditUser extends Component
         ];
     }
 
-    // --- TAMBAHAN 1: Agar Error Hilang Real-time ---
     public function updated($propertyName)
     {
-        // Fungsi ini mengecek validasi setiap kali ada data berubah/blur
         $this->validateOnly($propertyName);
     }
 
-    // --- TAMBAHAN 2: Translate Bahasa Indonesia ---
     public function messages()
     {
         return [

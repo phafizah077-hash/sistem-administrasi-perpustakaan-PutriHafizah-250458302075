@@ -1,6 +1,5 @@
 <div>
     <style>
-        /* CSS Tambahan untuk Search Dropdown (Sama seperti CreateBook) */
         .search-dropdown {
             position: absolute;
             top: 100%;
@@ -27,7 +26,6 @@
             color: #4f46e5;
         }
 
-        /* Style Button & Form original */
         .btn-indigo {
             background-color: #4f46e5 !important;
             border-color: #4f46e5 !important;

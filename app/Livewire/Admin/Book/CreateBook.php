@@ -42,7 +42,6 @@ class CreateBook extends Component
             'title' => 'required|string|max:255',
             'author_id' => 'required|exists:authors,id',
             'category_id' => 'required|exists:categories,id',
-            // UBAH: Gunakan regex agar hanya menerima angka dan strip (-)
             'isbn' => ['required', 'unique:books,isbn', 'regex:/^[0-9-]+$/'],
             'publisher' => 'required|string',
             'publication_year' => 'required|numeric',
@@ -60,7 +59,6 @@ class CreateBook extends Component
             'category_id.required' => 'Kategori wajib dipilih.',
             'isbn.required' => 'ISBN wajib diisi.',
             'isbn.unique' => 'Nomor ISBN ini sudah terdaftar.',
-            // Pesan error khusus jika user memaksa input huruf
             'isbn.regex' => 'Format ISBN salah. Hanya boleh angka dan tanda hubung (-).',
             'publisher.required' => 'Penerbit wajib diisi.',
             'publication_year.required' => 'Tahun terbit wajib diisi.',

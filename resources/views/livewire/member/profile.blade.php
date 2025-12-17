@@ -1,10 +1,8 @@
 <div>
-    {{-- Toast Notification dihapus --}}
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
-            {{-- Tombol Kembali ke Beranda --}}
             <a href="{{ route('home') }}" wire:navigate class="text-indigo-600 hover:text-indigo-900 mb-4 md:mb-6 inline-flex items-center text-sm md:text-base">
                 <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
@@ -16,32 +14,27 @@
                 <div class="p-6 sm:p-8 bg-white border-b border-gray-200">
 
                     @if ($isEditing)
-                    {{-- MODE EDIT --}}
                     <form wire:submit.prevent="update">
                         <h2 class="text-2xl font-bold text-gray-800 mb-4">Edit Profil</h2>
                         <div class="space-y-6">
-                            {{-- NAMA --}}
                             <div>
                                 <label for="name" class="block text-sm font-medium text-gray-700">Nama Lengkap</label>
                                 <input type="text" wire:model.defer="name" id="name" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                                 @error('name') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
                             </div>
 
-                            {{-- EMAIL --}}
                             <div>
                                 <label for="email" class="block text-sm font-medium text-gray-700">Alamat Email</label>
                                 <input type="email" wire:model.defer="email" id="email" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                                 @error('email') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
                             </div>
 
-                            {{-- PHONE --}}
                             <div>
                                 <label for="phone" class="block text-sm font-medium text-gray-700">Nomor Telepon</label>
                                 <input type="text" wire:model.defer="phone" id="phone" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                                 @error('phone') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
                             </div>
 
-                            {{-- ADDRESS --}}
                             <div>
                                 <label for="address" class="block text-sm font-medium text-gray-700">Alamat</label>
                                 <textarea wire:model.defer="address" id="address" rows="3" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"></textarea>
@@ -52,14 +45,12 @@
 
                             <p class="text-sm text-gray-600">Isi bagian di bawah ini hanya jika Anda ingin mengubah password.</p>
 
-                            {{-- PASSWORD BARU --}}
                             <div>
                                 <label for="password" class="block text-sm font-medium text-gray-700">Password Baru</label>
                                 <input type="password" wire:model.defer="password" id="password" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                                 @error('password') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
                             </div>
 
-                            {{-- KONFIRMASI PASSWORD --}}
                             <div>
                                 <label for="password_confirmation" class="block text-sm font-medium text-gray-700">Konfirmasi Password Baru</label>
                                 <input type="password" wire:model.defer="password_confirmation" id="password_confirmation" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
@@ -76,7 +67,6 @@
                         </div>
                     </form>
                     @else
-                    {{-- MODE TAMPILAN --}}
                     <div class="flex justify-between items-start">
                         <div>
                             <h2 class="text-2xl font-bold text-gray-800">{{ $name }}</h2>

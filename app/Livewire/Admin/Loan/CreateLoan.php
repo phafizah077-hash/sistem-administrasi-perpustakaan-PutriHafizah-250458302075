@@ -12,9 +12,6 @@ use Livewire\Component;
 #[Layout('components.layouts.admin')]
 class CreateLoan extends Component
 {
-    // Hapus #[Rule] di sini agar kita bisa custom pesan errornya lebih leluasa di function messages()
-    // Atau tetap pakai #[Rule] tapi kita override pesannya di bawah.
-
     public $userId = '';
 
     public $bookId = '';
@@ -25,7 +22,6 @@ class CreateLoan extends Component
 
     public $searchBook = '';
 
-    // Definisikan rules secara manual di sini atau di function rules()
     protected function rules()
     {
         return [
@@ -35,8 +31,6 @@ class CreateLoan extends Component
         ];
     }
 
-    // --- TAMBAHKAN BAGIAN INI ---
-    // Ini untuk mengubah pesan "The user id field is required" jadi bahasa manusia
     public function messages()
     {
         return [
@@ -50,11 +44,9 @@ class CreateLoan extends Component
             'loanDays.min' => 'Durasi minimal 1 hari.',
         ];
     }
-    // ----------------------------
 
     public function save(LoanService $loanService)
     {
-        // Panggil validate() yang akan menggunakan rules & messages di atas
         $this->validate();
 
         try {
@@ -77,7 +69,6 @@ class CreateLoan extends Component
     {
         $this->userId = $id;
         $this->searchUser = $name;
-        // Reset validasi error saat user memilih item yang benar
         $this->resetValidation('userId');
     }
 
@@ -85,7 +76,6 @@ class CreateLoan extends Component
     {
         $this->bookId = $id;
         $this->searchBook = $title;
-        // Reset validasi error saat user memilih item yang benar
         $this->resetValidation('bookId');
     }
 

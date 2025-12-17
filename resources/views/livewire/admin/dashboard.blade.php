@@ -1,40 +1,31 @@
- <div>
+<div>
      <style>
-         /* Mengatur posisi dan warna ikon agar terlihat jelas */
          .small-box {
              position: relative;
              overflow: hidden;
-             /* Agar ikon yang besar tidak keluar kotak */
          }
 
          .small-box .small-box-icon {
              position: absolute;
              top: 10px;
-             /* Jarak dari atas */
              right: 10px;
-             /* Jarak dari kanan */
              z-index: 0;
              font-size: 60px;
-             /* Ukuran ikon, sesuaikan jika perlu */
 
-             /* INI KUNCINYA: Ubah warna jadi putih transparan */
              color: rgba(255, 255, 255, 0.4) !important;
 
              transition: transform .3s linear;
          }
 
-         /* Efek saat mouse diarahkan (opsional, biar keren) */
          .small-box:hover .small-box-icon {
              transform: scale(1.1);
              color: rgba(255, 255, 255, 0.6) !important;
          }
 
-         /* Memastikan teks tetap di atas ikon */
          .small-box .inner {
              position: relative;
              z-index: 1;
              color: #fff;
-             /* Pastikan teks putih */
          }
      </style>
 

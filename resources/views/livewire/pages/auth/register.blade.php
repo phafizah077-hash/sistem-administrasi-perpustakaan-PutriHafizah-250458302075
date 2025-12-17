@@ -26,7 +26,6 @@ new
             $validated = $this->validate([
                 'name' => ['required', 'string', 'max:255'],
                 'email' => ['required', 'string', 'email', 'max:255', 'unique:' . User::class],
-                // SUDAH BENAR: nullable artinya boleh kosong
                 'phone' => ['nullable', 'numeric', 'digits_between:10,15'],
                 'address' => ['required', 'string', 'max:500'],
                 'password' => ['required', 'string', 'confirmed', Rules\Password::defaults()],
@@ -48,7 +47,6 @@ new
 
             $validated['role'] = 'Anggota';
 
-            // Jika phone kosong, pastikan tersimpan sebagai NULL (bukan string kosong "")
             if (empty($validated['phone'])) {
                 $validated['phone'] = null;
             }

@@ -51,7 +51,6 @@
 
                         <div class="card-body p-4">
                             <form wire:submit="save">
-                                {{-- NAME --}}
                                 <div class="mb-4">
                                     <label for="name" class="form-label">Name <span class="text-danger">*</span></label>
                                     <div class="input-group">
@@ -67,7 +66,6 @@
                                     @enderror
                                 </div>
 
-                                {{-- EMAIL --}}
                                 <div class="mb-4">
                                     <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
                                     <div class="input-group">
@@ -83,7 +81,6 @@
                                     @enderror
                                 </div>
 
-                                {{-- PASSWORD --}}
                                 <div class="mb-4">
                                     <label for="password" class="form-label">Password</label>
                                     <div class="input-group">
@@ -99,7 +96,6 @@
                                     @enderror
                                 </div>
 
-                                {{-- CONFIRM PASSWORD --}}
                                 <div class="mb-4">
                                     <label for="password_confirmation" class="form-label">Confirm Password</label>
                                     <div class="input-group">
@@ -112,7 +108,6 @@
                                     </div>
                                 </div>
 
-                                {{-- ROLE --}}
                                 <div class="mb-4">
                                     <label for="role" class="form-label">Role <span class="text-danger">*</span></label>
                                     <select id="role" wire:model.live="role"
@@ -125,7 +120,6 @@
                                     @enderror
                                 </div>
 
-                                {{-- PHONE (Tidak Wajib) --}}
                                 <div class="mb-4">
                                     <label for="phone" class="form-label">Phone</label>
                                     <div class="input-group">
@@ -141,7 +135,6 @@
                                     @enderror
                                 </div>
 
-                                {{-- ADDRESS (Tidak Wajib) --}}
                                 <div class="mb-4">
                                     <label for="address" class="form-label">Address</label>
                                     <textarea id="address" wire:model.blur="address"

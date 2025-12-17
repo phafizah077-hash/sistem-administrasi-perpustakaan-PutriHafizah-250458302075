@@ -13,7 +13,6 @@ new #[Layout('components.layouts.auth')]
 class extends Component {
     public LoginForm $form;
 
-    // Kustomisasi pesan validasi form (input kosong/format salah)
     public function messages()
     {
         return [
@@ -28,11 +27,8 @@ class extends Component {
         $this->validate();
 
         try {
-            // Coba lakukan login
             $this->form->authenticate();
         } catch (ValidationException $e) {
-            // Jika login gagal (password salah/email tidak ada), tangkap errornya
-            // Dan ganti pesannya jadi Bahasa Indonesia
             throw ValidationException::withMessages([
                 'form.email' => 'Email atau password yang Anda masukkan salah.',
             ]);
@@ -121,8 +117,6 @@ class extends Component {
                     </div>
                     @error('form.password') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                 </div>
-
-                <!-- Bagian Checkbox "Ingat saya" telah dihapus -->
 
                 <div>
                     <button type="submit" class="w-full flex justify-center py-3 px-4 border border-transparent rounded-xl shadow-sm text-sm font-bold text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition shadow-indigo-500/30 relative">

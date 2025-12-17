@@ -26,7 +26,6 @@
             box-shadow: 0 0 0 0.25rem rgba(99, 102, 241, 0.25);
         }
 
-        /* Dropdown Style */
         .search-dropdown {
             position: absolute;
             top: 100%;
@@ -94,7 +93,6 @@
                                 </div>
 
                                 <div class="row">
-                                    {{-- SEARCH AUTHOR --}}
                                     <div class="col-md-6 mb-4" x-data="{ open: false }" @click.outside="open = false">
                                         <label class="form-label">Penulis <span class="text-danger">*</span></label>
                                         <div class="input-group relative">
@@ -119,7 +117,6 @@
                                         @error('author_id') <div class="invalid-feedback d-block mt-1">{{ $message }}</div> @enderror
                                     </div>
 
-                                    {{-- SEARCH CATEGORY --}}
                                     <div class="col-md-6 mb-4" x-data="{ open: false }" @click.outside="open = false">
                                         <label class="form-label">Kategori <span class="text-danger">*</span></label>
                                         <div class="input-group relative">

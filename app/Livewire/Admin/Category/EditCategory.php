@@ -32,9 +32,6 @@ class EditCategory extends Component
         $this->slug = Str::slug($value);
     }
 
-    /**
-     * Tambahkan ini untuk mengubah pesan error jadi Bahasa Indonesia
-     */
     public function messages()
     {
         return [
@@ -54,7 +51,6 @@ class EditCategory extends Component
 
         $categoryService->updateCategory($this->category, $this->categoryName, $this->slug);
 
-        // Ubah pesan sukses jadi Indo
         session()->flash('message', 'Data kategori berhasil diperbarui.');
 
         return redirect()->route('admin.categories');

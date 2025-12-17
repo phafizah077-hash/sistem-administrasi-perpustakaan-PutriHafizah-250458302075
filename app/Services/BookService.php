@@ -8,13 +8,9 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class BookService
 {
-    /**
-     * Mengambil daftar buku dengan filter pencarian dan kategori.
-     */
     public function getFilteredBooks(string $search, ?int $categoryId)
     {
         return Book::with(['author', 'category'])
-            // Logic Search
             ->when($search, function ($query, $search) {
                 $query->where(function (Builder $q) use ($search) {
                     $q->where('title', 'like', '%'.$search.'%')
@@ -24,7 +20,6 @@ class BookService
                         });
                 });
             })
-            // Logic Filter Kategori
             ->when($categoryId, function ($query, $categoryId) {
                 $query->where('category_id', $categoryId);
             })
@@ -32,7 +27,6 @@ class BookService
             ->paginate(12);
     }
 
-    // ... method lain (getPaginatedBooks, createBook, dll) biarkan saja seperti semula ...
     public function getPaginatedBooks(
         ?string $searchQuery = null,
         ?int $categoryId = null,

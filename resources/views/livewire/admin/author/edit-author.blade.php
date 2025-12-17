@@ -55,8 +55,6 @@
                                             <i class="bi bi-person-badge"></i>
                                         </span>
 
-                                        {{-- PERBAIKAN DI SINI: --}}
-                                        {{-- 1. Ubah @error('author') jadi @error('authorName') di dalam class --}}
                                         <input type="text"
                                             id="author"
                                             wire:model.live="authorName"
@@ -64,8 +62,6 @@
                                             placeholder="Masukkan nama penulis">
                                     </div>
 
-                                    {{-- PERBAIKAN DI SINI: --}}
-                                    {{-- 2. Ubah @error('author') jadi @error('authorName') untuk pesan errornya --}}
                                     @error('authorName')
                                     <div class="invalid-feedback d-block mt-1">{{ $message }}</div>
                                     @enderror

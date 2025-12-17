@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ $title ?? 'Bookify Library' }}</title>
 
-    {{-- Vite Assets --}}
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <link rel="icon" type="image/png" href="{{ asset('book.png') }}">
@@ -35,12 +34,10 @@
 
 <body class="bg-slate-50 text-slate-900 flex flex-col min-h-screen">
 
-    {{-- NAVIGASI UTAMA --}}
     <nav x-data="{ isOpen: false }" class="bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-40 transition-all border-b border-slate-100">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16 items-center">
 
-                {{-- 1. LOGO --}}
                 <a href="{{ route('home') }}" class="flex items-center gap-2 cursor-pointer shrink-0">
                     <div class="bg-indigo-600 p-2 rounded-lg shadow-sm shadow-indigo-200">
                         <svg class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -50,7 +47,6 @@
                     <span class="font-bold text-xl text-indigo-950 tracking-tight">Bookify<span class="text-indigo-600">Library</span></span>
                 </a>
 
-                {{-- 2. MENU TENGAH (Hanya Desktop) --}}
                 <div class="hidden md:flex items-center gap-8">
                     <a href="{{ route('home') }}" class="text-sm font-medium text-slate-600 hover:text-indigo-600 transition-colors duration-200">Beranda</a>
                     <a href="{{ route('home') }}#layanan" class="text-sm font-medium text-slate-600 hover:text-indigo-600 transition-colors duration-200">Layanan</a>
@@ -58,23 +54,19 @@
                     <a href="{{ route('home') }}#tentang" class="text-sm font-medium text-slate-600 hover:text-indigo-600 transition-colors duration-200">Tentang</a>
                 </div>
 
-                {{-- 3. BAGIAN KANAN (Auth & Hamburger) --}}
                 <div class="flex items-center gap-2 sm:gap-4">
                     @guest
-                    {{-- Login/Register Desktop --}}
                     <div class="hidden md:flex items-center gap-4">
                         <a href="{{ route('login') }}" class="text-slate-600 hover:text-indigo-600 font-medium text-sm transition">Login</a>
                         <a href="{{ route('register') }}" class="bg-indigo-600 text-white px-5 py-2 rounded-full hover:bg-indigo-700 transition text-sm font-medium shadow-lg shadow-indigo-200">Register</a>
                     </div>
                     @else
-                    {{-- Notifikasi --}}
                     @if (auth()->user()->role === 'Anggota')
                     <div class="flex items-center">
                         <livewire:member.notification-user />
                     </div>
                     @endif
 
-                    {{-- Profil Dropdown (Desktop) --}}
                     <div class="relative group hidden md:block">
                         <button class="flex items-center space-x-2 p-2 rounded-full hover:bg-slate-100 transition text-sm font-medium">
                             <div class="h-8 w-8 bg-indigo-100 rounded-full flex items-center justify-center border border-indigo-200">
@@ -105,7 +97,6 @@
                     </div>
                     @endguest
 
-                    {{-- Tombol Hamburger (Mobile) --}}
                     <div class="flex md:hidden ml-1">
                         <button @click="isOpen = !isOpen" type="button" class="text-slate-600 hover:text-indigo-600 focus:outline-none p-2 rounded-md hover:bg-slate-100 transition">
                             <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -118,7 +109,6 @@
             </div>
         </div>
 
-        {{-- 4. MENU MOBILE --}}
         <div x-show="isOpen" x-cloak
             @click.away="isOpen = false"
             x-transition:enter="transition ease-out duration-200"
@@ -129,7 +119,6 @@
             x-transition:leave-end="opacity-0 -translate-y-2"
             class="md:hidden absolute top-16 left-0 w-full bg-white border-b border-slate-200 shadow-2xl z-50 flex flex-col max-h-[85vh] overflow-y-auto">
 
-            {{-- 1. PROFIL USER (DITARUH PALING ATAS) --}}
             @auth
             <div class="bg-indigo-50/50 p-4 border-b border-indigo-100">
                 <div class="flex items-center mb-4">
@@ -144,7 +133,6 @@
                     </div>
                 </div>
 
-                {{-- Menu Khusus User --}}
                 <div class="space-y-1 bg-white rounded-lg p-2 shadow-sm border border-slate-100">
                     @if (auth()->user()->role === 'Pustakawan')
                     <a href="{{ route('admin.dashboard') }}" @click="isOpen = false" class="flex items-center w-full px-3 py-2 text-sm font-medium text-slate-600 rounded-md hover:bg-indigo-50 hover:text-indigo-700 transition">
@@ -171,7 +159,6 @@
             </div>
             @endauth
 
-            {{-- 2. MENU UTAMA/UMUM (Berada di Tengah) --}}
             <div class="px-4 py-4 space-y-1">
                 <p class="px-4 text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Menu Utama</p>
                 <a href="{{ route('home') }}" @click="isOpen = false" class="block px-4 py-2.5 rounded-lg text-base font-medium text-slate-700 hover:bg-indigo-50 hover:text-indigo-700 transition">Beranda</a>
@@ -180,7 +167,6 @@
                 <a href="{{ route('home') }}#tentang" @click="isOpen = false" class="block px-4 py-2.5 rounded-lg text-base font-medium text-slate-700 hover:bg-indigo-50 hover:text-indigo-700 transition">Tentang</a>
             </div>
 
-            {{-- 3. LOGOUT / LOGIN (Paling Bawah) --}}
             <div class="px-4 pb-6 mt-auto">
                 @auth
                 <form method="POST" action="{{ route('logout') }}" class="pt-4 border-t border-slate-100">

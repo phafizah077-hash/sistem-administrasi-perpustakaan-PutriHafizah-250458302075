@@ -27,7 +27,6 @@
                 <li class="nav-header text-uppercase text-secondary fw-bold mt-2" style="font-size: 0.75rem; letter-spacing: 1px;">Transaksi</li>
 
                 <li class="nav-item">
-                    {{-- PERBAIKAN: Menambahkan '*' agar aktif di halaman create/edit --}}
                     <a wire:navigate href="{{ route('admin.loans') }}" class="nav-link {{ request()->routeIs('admin.loans*') ? 'active' : '' }}">
                         <i class="nav-icon bi bi-basket2-fill"></i>
                         <p>Peminjaman</p>
@@ -35,7 +34,6 @@
                 </li>
 
                 <li class="nav-item mb-2">
-                    {{-- PERBAIKAN: Menambahkan '*' --}}
                     <a wire:navigate href="{{ route('admin.returns') }}" class="nav-link {{ request()->routeIs('admin.returns*') ? 'active' : '' }}">
                         <i class="nav-icon bi bi-arrow-counterclockwise"></i>
                         <p>Pengembalian</p>
@@ -45,7 +43,6 @@
                 <li class="nav-header text-uppercase text-secondary fw-bold mt-2" style="font-size: 0.75rem; letter-spacing: 1px;">Master Data</li>
 
                 <li class="nav-item">
-                    {{-- PERBAIKAN: Menambahkan '*' --}}
                     <a wire:navigate href="{{ route('admin.users') }}" class="nav-link {{ request()->routeIs('admin.users*') ? 'active' : '' }}">
                         <i class="nav-icon bi bi-people-fill"></i>
                         <p>Data User</p>
@@ -53,7 +50,6 @@
                 </li>
 
                 <li class="nav-item">
-                    {{-- PERBAIKAN: Menambahkan '*' --}}
                     <a wire:navigate href="{{ route('admin.books') }}" class="nav-link {{ request()->routeIs('admin.books*') ? 'active' : '' }}">
                         <i class="nav-icon bi bi-book-half"></i>
                         <p>Data Buku</p>
@@ -61,7 +57,6 @@
                 </li>
 
                 <li class="nav-item">
-                    {{-- PERBAIKAN: Menambahkan '*' --}}
                     <a wire:navigate href="{{ route('admin.authors') }}" class="nav-link {{ request()->routeIs('admin.authors*') ? 'active' : '' }}">
                         <i class="nav-icon bi bi-pen-fill"></i>
                         <p>Data Penulis</p>
@@ -69,7 +64,6 @@
                 </li>
 
                 <li class="nav-item">
-                    {{-- PERBAIKAN: Menambahkan '*' --}}
                     <a wire:navigate href="{{ route('admin.categories') }}" class="nav-link {{ request()->routeIs('admin.categories*') ? 'active' : '' }}">
                         <i class="nav-icon bi bi-tags-fill"></i>
                         <p>Data Kategori</p>

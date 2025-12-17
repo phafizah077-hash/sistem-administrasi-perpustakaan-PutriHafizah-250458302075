@@ -22,13 +22,9 @@ class CreateCategory extends Component
         $this->slug = Str::slug($value);
     }
 
-    /**
-     * Kustomisasi pesan error ke Bahasa Indonesia
-     */
     public function messages()
     {
         return [
-            // Pesan untuk Kategori
             'category.required' => 'Nama kategori wajib diisi.',
             'category.max' => 'Nama kategori maksimal 100 karakter.',
             'category.unique' => 'Nama kategori ini sudah ada, silakan gunakan nama lain.',
@@ -41,7 +37,6 @@ class CreateCategory extends Component
 
         $categoryService->createCategory($this->category, $this->slug);
 
-        // Flash message diterjemahkan
         session()->flash('message', 'Kategori baru berhasil ditambahkan.');
 
         return redirect()->route('admin.categories');

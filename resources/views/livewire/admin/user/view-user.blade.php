@@ -27,19 +27,15 @@
 
                 <div class="card bg-light border-0 rounded-3">
                     <div class="card-body p-3">
-                        {{-- Bagian No Telp --}}
                         <div class="d-flex justify-content-between align-items-center mb-2 border-bottom pb-2">
                             <span class="text-muted small text-uppercase fw-bold"><i class="fas fa-envelope me-2"></i>No Telp</span>
-                            {{-- PERBAIKAN: Gunakan ternary operator ?: --}}
                             <span class="text-dark fw-semibold">
                                 {{ $user->phone ?: '-' }}
                             </span>
                         </div>
 
-                        {{-- Bagian Alamat --}}
                         <div class="d-flex justify-content-between align-items-center mb-2 border-bottom pb-2">
                             <span class="text-muted small text-uppercase fw-bold"><i class="fas fa-user-tag me-2"></i>Alamat</span>
-                            {{-- PERBAIKAN: Gunakan ternary operator ?: --}}
                             <span class="text-dark fw-semibold text-uppercase">
                                 {{ $user->address ?: '-' }}
                             </span>

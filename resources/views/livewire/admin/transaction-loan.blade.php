@@ -73,7 +73,6 @@
                                                 {{ $loan->loan_date->format('d M Y') }}
                                             </td>
                                             <td class="text-center">
-                                                {{-- LOGIKA STATUS DIMULAI DI SINI --}}
                                                 @if($loan->status == 'borrowed')
                                                 <span class="badge bg-warning bg-opacity-10 text-warning border border-warning-subtle px-3 py-2 rounded-pill">
                                                     <i class="bi bi-clock-history me-1"></i> Sedang Dipinjam
@@ -83,12 +82,10 @@
                                                     <i class="bi bi-check-circle me-1"></i> Sudah Dikembalikan
                                                 </span>
                                                 @else
-                                                {{-- Fallback jika ada status lain yang tidak terduga --}}
                                                 <span class="badge bg-secondary bg-opacity-10 text-secondary border border-secondary-subtle px-3 py-2 rounded-pill">
                                                     {{ ucfirst($loan->status) }}
                                                 </span>
                                                 @endif
-                                                {{-- LOGIKA STATUS BERAKHIR DI SINI --}}
                                             </td>
                                         </tr>
                                         @empty

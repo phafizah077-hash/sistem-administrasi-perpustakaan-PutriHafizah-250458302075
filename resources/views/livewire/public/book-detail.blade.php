@@ -42,7 +42,6 @@
         </div>
     </div>
 
-    <!-- Bagian Ulasan Pengguna -->
     <div class="mt-12 p-6 md:p-8 bg-white shadow-md rounded-lg">
         <h3 class="text-2xl font-bold mb-6 text-slate-900">Ulasan Pengguna</h3>
 

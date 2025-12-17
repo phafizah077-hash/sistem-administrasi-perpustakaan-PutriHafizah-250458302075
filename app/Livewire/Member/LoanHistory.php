@@ -45,7 +45,7 @@ class LoanHistory extends Component
             'rating' => 'required|integer|min:1|max:5',
             'comment' => 'nullable|string',
         ], [
-            // Custom Messages Bahasa Indonesia
+
             'rating.required' => 'Wajib memberikan rating bintang.',
             'rating.integer' => 'Rating harus berupa angka.',
             'rating.min' => 'Rating minimal 1 bintang.',

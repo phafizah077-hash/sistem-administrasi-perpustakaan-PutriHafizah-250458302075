@@ -1,7 +1,6 @@
 <div>
     <div id="katalog-start" class="scroll-mt-24 bg-white p-6 rounded-2xl shadow-sm border border-slate-200 mb-10">
         <div class="flex flex-col md:flex-row gap-4 items-center">
-            <!-- Bagian Search (Kiri) -->
             <div class="relative w-full md:flex-1">
                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                     <svg class="h-5 w-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -12,9 +11,7 @@
                     class="block w-full pl-10 pr-3 py-3 border border-slate-300 rounded-xl leading-5 bg-slate-50 placeholder-slate-400 focus:outline-none focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition sm:text-sm">
             </div>
 
-            <!-- Bagian Filter Kategori (Kanan) - Versi Native Select (Panah Tunggal) -->
             <div class="relative w-full md:w-72">
-                <!-- Select Asli Browser (Tanpa Icon Custom Tambahan) -->
                 <select wire:model.live="categoryFilter"
                     class="w-full bg-slate-50 border border-slate-300 text-slate-700 py-3 pl-4 pr-8 rounded-xl leading-tight focus:outline-none focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition cursor-pointer font-medium hover:bg-slate-100 sm:text-sm">
                     <option value="">Semua Kategori</option>
@@ -26,7 +23,6 @@
         </div>
     </div>
 
-    <!-- Grid Buku -->
     <div wire:loading.class="opacity-50" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
         @forelse ($books as $book)
         <a href="{{ route('books.detail', $book->id) }}" wire:navigate class="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-slate-100 flex flex-col h-full transform hover:-translate-y-1">

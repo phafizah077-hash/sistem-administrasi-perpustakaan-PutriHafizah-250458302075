@@ -1,6 +1,5 @@
 <div>
     <style>
-        /* Style tetap sama */
         .btn-indigo {
             background-color: #4f46e5 !important;
             border-color: #4f46e5 !important;
@@ -147,7 +146,6 @@
                                         <div class="input-group">
                                             <span class="input-group-text bg-light border-end-0 text-secondary"><i class="bi bi-upc-scan"></i></span>
 
-                                            {{-- PERBAIKAN: Tambahkan oninput regex replace --}}
                                             <input type="text"
                                                 class="form-control border-start-0 ps-0 @error('isbn') is-invalid @enderror"
                                                 wire:model.blur="isbn"
